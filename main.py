@@ -1,31 +1,34 @@
 import pygame
 import random
+from player import playerClass
 from enemies import EnemieClass
 
 
 pygame.init()
+
+#Create game window
 screenHeight, screenWidth = 600, 800
 screenColor = (0,12,32)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
+
+#framerate
 clock = pygame.time.Clock()
-running = True
 dt = 0
+
+
+running = True
+
 
 player = pygame.Rect((300, 250, 50, 50))
 
-enemie1 = EnemieClass()
+
+#enemie group with first enemy added
+enemie1 = EnemieClass((0,0,0), 500, 300)
+enemies = pygame.sprite.Group()
+enemies.add(enemie1)
 
 
 
-
-
-
-
-#def createEnemy():
-#    startX, startY = random.randrange(0, screenWidth), 25
-#    enemy = pygame.Rect((startX, startY, 25, 25))
-#    pygame.draw.rect(screen, (0, 0, 0), enemy)
-#    enemy.move_ip(0,1)
 
 def outBounds(object, screenH, screenW):
     if object.right >= screenW:
@@ -37,26 +40,43 @@ def outBounds(object, screenH, screenW):
     if object.top <= 0:
         object.top = 0
 
+
+#game loop
 while running:
 
     screen.fill(screenColor)
 
     pygame.draw.rect(screen, (155,25,0), player)
-    enemie1.draw(screen)
-    #enemie1.move_ip(1,0)
-    
-    #createEnemy()
-
+ 
+ 
     key = pygame.key.get_pressed()
-    if key[pygame.K_a] == True:
+    if key[pygame.K_a]:
         player.move_ip(-1, 0)
-    elif key[pygame.K_d] == True:
+    elif key[pygame.K_d]:
         player.move_ip(1, 0)
-    elif key[pygame.K_s] == True:
+    elif key[pygame.K_s]:
         player.move_ip(0, 1)
-    elif key[pygame.K_w] == True:
+    elif key[pygame.K_w]:
         player.move_ip(0, -1)
+    elif key[pygame.K_a] and key[pygame.K_w]:
+        player.move_ip(-1, -1)
+    elif key[pygame.K_a and pygame.K_s]:
+        player.move_ip(-1, 1)
+    elif key[pygame.K_d and pygame.K_w]:
+        player.move_ip(1, -1)
+    elif key[pygame.K_d and pygame.K_s]:
+        player.move_ip(1, 1)
+   
 
+   #update enemie group
+    enemies.update()
+   
+    #draw enemies group onto screen.
+    enemies.draw(screen)
+
+
+
+   
     #event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

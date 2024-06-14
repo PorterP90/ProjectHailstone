@@ -3,17 +3,15 @@ import random
 
 pygame.init
 
-class EnemieClass:
-    def __init__(self):
-        self.width = 25
-        self.height = 25
-        self.startX = random.randrange(0,775)
-        self.startY = 25 #should be -25 but we cant see -25 so if error set to 25
-        self.color = (0,0,0)
-        self.rect = pygame.Rect((self.startX,self.startY, self.width, self.height))
-    
-    def draw(self, screen):
-        pygame.draw.rect(screen, (0,0,0), self.rect)
+black = (0,0,0)
+
+class EnemieClass(pygame.sprite.Sprite):
+    def __init__(self, col, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((75,75))
+        self.image.fill(col)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x,y)
 
 
 
