@@ -17,6 +17,10 @@ enemie1 = EnemieClass()
 
 
 
+
+
+
+
 #def createEnemy():
 #    startX, startY = random.randrange(0, screenWidth), 25
 #    enemy = pygame.Rect((startX, startY, 25, 25))

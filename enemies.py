@@ -14,3 +14,7 @@ class EnemieClass:
     
     def draw(self, screen):
         pygame.draw.rect(screen, (0,0,0), self.rect)
+
+
+
+
