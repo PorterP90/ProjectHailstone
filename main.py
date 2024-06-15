@@ -7,7 +7,7 @@ from enemies import EnemieClass
 pygame.init()
 
 #Create game window
-screenHeight, screenWidth = 600, 800
+screenHeight, screenWidth = 1500, 1600
 screenColor = (0,12,32)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 
@@ -19,7 +19,7 @@ dt = 0
 running = True
 
 
-player = pygame.Rect((300, 250, 50, 50))
+#player = pygame.Rect((300, 250, 50, 50))
 
 
 #enemie group with first enemy added
@@ -27,6 +27,9 @@ enemie1 = EnemieClass((0,0,0), 500, 300)
 enemies = pygame.sprite.Group()
 enemies.add(enemie1)
 
+player = playerClass((25,0,0), screenHeight//2, screenWidth//2)
+playerGroup = pygame.sprite.Group() 
+playerGroup.add(player)
 
 
 
@@ -46,45 +49,27 @@ while running:
 
     screen.fill(screenColor)
 
-    pygame.draw.rect(screen, (155,25,0), player)
- 
- 
-    key = pygame.key.get_pressed()
-    if key[pygame.K_a]:
-        player.move_ip(-1, 0)
-    elif key[pygame.K_d]:
-        player.move_ip(1, 0)
-    elif key[pygame.K_s]:
-        player.move_ip(0, 1)
-    elif key[pygame.K_w]:
-        player.move_ip(0, -1)
-    elif key[pygame.K_a] and key[pygame.K_w]:
-        player.move_ip(-1, -1)
-    elif key[pygame.K_a and pygame.K_s]:
-        player.move_ip(-1, 1)
-    elif key[pygame.K_d and pygame.K_w]:
-        player.move_ip(1, -1)
-    elif key[pygame.K_d and pygame.K_s]:
-        player.move_ip(1, 1)
-   
+    #pygame.draw.rect(screen, (155,25,0), player)
 
-   #update enemie group
+    #event handler
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+     
+ 
+   #update enemie gro
     enemies.update()
    
     #draw enemies group onto screen.
     enemies.draw(screen)
 
 
+    #outBounds(player, screenHeight, screenWidth)
+    player.checkMovement()
 
-   
-    #event handler
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    
-    outBounds(player, screenHeight, screenWidth)
-    
+    #draw everything
+    screen.fill(screenColor) #clear screen
+    screen.blit(player.image, player.rect) #draw player
 
     #this wipes away anything from last frame.
     pygame.display.update()

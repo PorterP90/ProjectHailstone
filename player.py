@@ -14,4 +14,15 @@ class playerClass(pygame.sprite.Sprite):
         self.image = pygame.Surface((50,50))
         self.image.fill(color)
         self.rect = self.image.get_rect()
-        self.ret.center = (x, y)
+        self.rect.center = (x, y)
+    
+    def checkMovement(self):
+        key = pygame.key.get_pressed()
+        if key[pygame.K_a]:
+            self.rect.x += -1
+        elif key[pygame.K_d]:
+            self.rect.x +=  1
+        elif key[pygame.K_s]:
+            self.rect.y += 1
+        elif key[pygame.K_w]:
+            self.rect.y += -1
