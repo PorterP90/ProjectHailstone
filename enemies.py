@@ -6,6 +6,20 @@ pygame.init
 
 black = (0,0,0)
 
+def createEnemy(color, enemyGroup, screenHeight, screenWidth):
+        if random.choice([True, False]):
+            n = random.randint(-250, -50)
+        else:
+            n = random.randint((screenWidth+50), (screenWidth+250))
+        if random.choice([True, False]):
+            m = random.randint(-250, -50)
+        else:
+            m =random.randint((screenHeight + 50), (screenHeight+250))
+        
+        newEnemy = EnemieClass(color, n, m)
+        enemyGroup.add(newEnemy)
+
+
 
 
 class EnemieClass(pygame.sprite.Sprite):

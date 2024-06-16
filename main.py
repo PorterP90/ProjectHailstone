@@ -1,7 +1,7 @@
 import pygame
 import random
 from player import playerClass
-from enemies import EnemieClass
+from enemies import *
 
 
 pygame.init()
@@ -87,9 +87,8 @@ while running:
     
 
     #add a new enemy every 100 loops :)
-    if gameLoops % 2 == 0:
-        newEnemy = EnemieClass(yellow, 25, 25)
-        enemies.add(newEnemy)
+    if gameLoops % 1000 == 0:
+        createEnemy(yellow, enemies, screenHeight, screenWidth)
 
 
     #dt = clock.tick(60) / 100
