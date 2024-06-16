@@ -30,7 +30,7 @@ running = True
 
 
 #enemie group with first enemy added
-enemie1 = EnemieClass(yellow, 500, 300)
+enemie1 = EnemieClass(yellow, 25, 25)
 enemies = pygame.sprite.Group()
 enemies.add(enemie1)
 
@@ -58,7 +58,7 @@ while running:
             running = False
      
  
-   #update enemie gro
+   #update enemie group
     enemies.update()
    
     #draw enemies group onto screen.
@@ -70,9 +70,14 @@ while running:
     player.checkMovement()
     player.outBounds(screenHeight, screenWidth)
 
+
+    #enemie movement...
+    enemie1.pathForPlayer(player.rect.x, player.rect.y)
+
     #draw everything
     screen.fill(screenColor) #clear screen
     screen.blit(player.image, player.rect) #draw player
+    screen.blit(enemie1.image, enemie1.rect)#draw enemie to screen.
 
     #this wipes away anything from last frame.
     pygame.display.update()

@@ -15,10 +15,28 @@ class EnemieClass(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
         self.health = 100
+        self.speed = 1
+
+    #takes the enemies x, y coordinate and slowly transverses the hypotinose to the players x y cord, should change when player x y changes
+    def pathForPlayer(self, playerX, playerY):
+        xDissToPlayer = self.rect.x - playerX
+        yDissToPlayer = self.rect.y - playerY
+
+        if xDissToPlayer > 0:
+            self.rect.x -= self.speed
+        elif xDissToPlayer < 0:
+            self.rect.x += self.speed
+        elif yDissToPlayer > 0:
+            self.rect.y -= self.speed
+        elif yDissToPlayer < 0:
+            self.rect.y += self.speed
+
 
     #this function is  what will  update each frame so movement etc. 
     def update(self):
         if self.health <= 0:
             self.kill
+        
 
 
+        
