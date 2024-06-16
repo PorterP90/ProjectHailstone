@@ -94,3 +94,24 @@ while running:
     #dt = clock.tick(60) / 100
     
 pygame.quit()
+
+
+
+
+
+
+
+
+
+#THESE ARE THE NOTES FOR THE PROJECT :))))
+
+#create enemy collisions so they cant stack each other
+#create ability to shoot enemy 
+#create enemy damage when hit player
+#add sprite images to player / enemy
+#add sounds?
+#create map to navigate?
+#add different enemy types
+#add weapons to collect
+#add ammo?
+#
