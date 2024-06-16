@@ -6,9 +6,16 @@ from enemies import EnemieClass
 
 pygame.init()
 
+
+
+#colors :)
+
+red = (134, 49, 54)
+yellow = (219,214,7)
+
 #Create game window
-screenHeight, screenWidth = 1500, 1600
-screenColor = (0,12,32)
+screenHeight, screenWidth = 750, 800
+screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 
 #framerate
@@ -23,25 +30,19 @@ running = True
 
 
 #enemie group with first enemy added
-enemie1 = EnemieClass((0,0,0), 500, 300)
+enemie1 = EnemieClass(yellow, 500, 300)
 enemies = pygame.sprite.Group()
 enemies.add(enemie1)
 
-player = playerClass((25,0,0), screenHeight//2, screenWidth//2)
+
+#create player add him to sprite group
+player = playerClass(red, screenHeight//2, screenWidth//2, 50, 50)
 playerGroup = pygame.sprite.Group() 
 playerGroup.add(player)
 
 
 
-def outBounds(object, screenH, screenW):
-    if object.right >= screenW:
-        object.right = screenW
-    if object.left <= 0:
-        object.left = 0
-    if object.bottom >= screenH:
-        object.bottom = screenH
-    if object.top <= 0:
-        object.top = 0
+
 
 
 #game loop
@@ -64,8 +65,10 @@ while running:
     enemies.draw(screen)
 
 
-    #outBounds(player, screenHeight, screenWidth)
+    
+    #check for player movement and if he is out of bounds.
     player.checkMovement()
+    player.outBounds(screenHeight, screenWidth)
 
     #draw everything
     screen.fill(screenColor) #clear screen
