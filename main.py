@@ -14,7 +14,7 @@ red = (134, 49, 54)
 yellow = (219,214,7)
 
 #Create game window
-screenHeight, screenWidth = 750, 800
+screenHeight, screenWidth = 1000, 1200
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 
@@ -43,7 +43,7 @@ playerGroup.add(player)
 
 
 
-
+gameLoops = 0
 
 #game loop
 while running:
@@ -72,15 +72,24 @@ while running:
 
 
     #enemie movement...
-    enemie1.pathForPlayer(player.rect.x, player.rect.y)
+    for enemy in enemies:
+        enemy.pathForPlayer(player.rect.x, player.rect.y)
 
     #draw everything
     screen.fill(screenColor) #clear screen
     screen.blit(player.image, player.rect) #draw player
-    screen.blit(enemie1.image, enemie1.rect)#draw enemie to screen.
+    enemies.draw(screen) #draw enemies to screen.
 
     #this wipes away anything from last frame.
     pygame.display.update()
+
+    gameLoops += 1
+    
+
+    #add a new enemy every 100 loops :)
+    if gameLoops % 2 == 0:
+        newEnemy = EnemieClass(yellow, 25, 25)
+        enemies.add(newEnemy)
 
 
     #dt = clock.tick(60) / 100
