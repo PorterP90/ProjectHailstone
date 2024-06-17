@@ -14,7 +14,7 @@ red = (134, 49, 54)
 yellow = (219,214,7)
 
 #Create game window
-screenHeight, screenWidth = 1000, 1200
+screenHeight, screenWidth = 500, 600
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 
@@ -29,10 +29,10 @@ running = True
 #player = pygame.Rect((300, 250, 50, 50))
 
 
-#enemie group with first enemy added
-enemie1 = EnemieClass(yellow, 25, 25)
+#create enemys 
 enemies = pygame.sprite.Group()
-enemies.add(enemie1)
+#createEnemy(yellow, enemies, screenHeight, screenWidth)
+#createEnemy(yellow, enemies, screenHeight, screenWidth)
 
 
 #create player add him to sprite group
@@ -42,22 +42,20 @@ playerGroup.add(player)
 
 
 
-
 gameLoops = 0
-
 #game loop
 while running:
 
     screen.fill(screenColor)
 
-    #pygame.draw.rect(screen, (155,25,0), player)
 
     #event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-     
- 
+
+
+    areWeStacked(enemies)
    #update enemie group
     enemies.update()
    
@@ -83,15 +81,15 @@ while running:
     #this wipes away anything from last frame.
     pygame.display.update()
 
-    gameLoops += 1
     
 
     #add a new enemy every 100 loops :)
+
     if gameLoops % 1000 == 0:
         createEnemy(yellow, enemies, screenHeight, screenWidth)
 
-
-    #dt = clock.tick(60) / 100
+    gameLoops += 1
+    clock.tick(120)
     
 pygame.quit()
 
@@ -105,9 +103,12 @@ pygame.quit()
 
 #THESE ARE THE NOTES FOR THE PROJECT :))))
 
-#create enemy collisions so they cant stack each other
+
 #create ability to shoot enemy 
+    #track mouse position and then check for if click
+    #if click take hyptonose of player pos to mouse pos then send "bullet" down the hyp checking for collsion with enemy
 #create enemy damage when hit player
+    #if enemy collide with player, player health -= damage
 #add sprite images to player / enemy
 #add sounds?
 #create map to navigate?
