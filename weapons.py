@@ -29,9 +29,12 @@ class bulletClass(weaponsClass):
         self.image.fill((0,0,0))
         self.rect = self.image.get_rect()
         self.rect.center = (startX, startY)
+        self.moveX = 0
+        self.moveY = 0
 
     def update(self, screenWidth, screenHeight):
         if self.rect.x > screenWidth or self.rect.x < 0 or self.rect.y > screenHeight or self.rect.y < 0:
+            print("bullet is dead!")
             self.kill()
         
 

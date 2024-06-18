@@ -53,11 +53,14 @@ while running:
             running = False
         #so this is working... but nothing on screen is happening
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouseX,mouseY = pygame.mouse.get_pos()
+            startX, startY = player.rect.x, player.rect.y
             if event.button == 1:
                 bullet1 = bulletClass(player.rect.x, player.rect.y) #createBullet(player)
                 bulletGroup.add(bullet1)
-                shooting(player, bullet1)
-                print("bullet firing!!")
+                #here we take the vector of the bullet and change the movement of it in its class.
+                bullet1.moveX, bullet1.moveY = bulletVector(player, bullet1)
+                #so in the game loop we need to update every bullet in the bullet class with their move line 79
 
     #check if enemeis are stacked
     areWeStacked(enemies)
@@ -73,7 +76,11 @@ while running:
     for enemy in enemies:
         enemy.pathForPlayer(player.rect.x, player.rect.y)
     
+    for bullet in bulletGroup:
+        bullet.rect.x += bullet.moveX
+        bullet.rect.y += bullet.moveY
 
+    
     #are we doing damage to the player?
     isHittingPlayer(enemies, player)
     
@@ -92,8 +99,8 @@ while running:
     
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    if gameLoops % 1000 == 0:
-        createEnemy(yellow, enemies, screenHeight, screenWidth)
+    #if gameLoops % 1000 == 0:
+    #    createEnemy(yellow, enemies, screenHeight, screenWidth)
 
     gameLoops += 1
     clock.tick(120)

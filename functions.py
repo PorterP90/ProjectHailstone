@@ -47,28 +47,32 @@ def createBullet(player):
     #becasue we only create a bullet when player is shooting...
     bullet = bulletClass(player.rect.x, player.rect.y)
 
-def shooting(player, bullet):
+def bulletVector(player, bullet):
     #create ability to shoot enemy 
     #track mouse position and then check for if click
     #if click take hyptonose of player pos to mouse pos then send "bullet" 
     # down the hyp checking for collsion with the enemy
     #if pygame.mouse.get_pressed():     #RUN THIS LINE BEFORE CALLING FUNCTION IN MAIN LOOP
         
-        (mouseX,mouseY) = pygame.mouse.get_pos()
+    mouseX,mouseY = pygame.mouse.get_pos()
 
-        dx = mouseX - player.rect.x
-        dy = mouseY - player.rect.y
+    dx = mouseX - player.rect.center[0]
+    dy = mouseY - player.rect.center[1]
 
-        dist = math.hypot(dx, dy)
+    dist = math.hypot(dx, dy)
 
-        dx /= dist
-        dy /= dist
+    dx /= dist
+    dy /= dist
 
-        moveX = dx * bullet.bulletSpeed
-        moveY = dx * bullet.bulletSpeed
+    moveX = dx * bullet.bulletSpeed
+    moveY = dy * bullet.bulletSpeed
 
-        bullet.rect.x += moveX
-        bullet.rect.y += moveY
+    bullet.rect.x += moveX
+    bullet.rect.y += moveY
+    return (moveX, moveY)
+
+
+
 
 def isHittingPlayer(enemyGroup, player):
      for enemy in enemyGroup:
