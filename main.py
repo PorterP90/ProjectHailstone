@@ -34,6 +34,8 @@ playerGroup = pygame.sprite.Group()
 playerGroup.add(player)
 
 
+bulletGroup = pygame.sprite.Group()
+
 
 gameLoops = 0
 
@@ -49,34 +51,40 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif player.health == 0:
-            running = False
+        #so this is working... but nothing on screen is happening
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                bullet1 = bulletClass(player.rect.x, player.rect.y) #createBullet(player)
+                bulletGroup.add(bullet1)
+                shooting(player, bullet1)
+                print("bullet firing!!")
 
     #check if enemeis are stacked
     areWeStacked(enemies)
    
-   #update enemie group
-    enemies.update()
-   
-    #draw enemies group onto screen.
-    enemies.draw(screen)
-
 
     #check for player movement and if he is out of bounds.
     player.checkMovement()
     player.outBounds(screenHeight, screenWidth)
+    
 
 
     #enemie movement twoards player
     for enemy in enemies:
         enemy.pathForPlayer(player.rect.x, player.rect.y)
+    
+
+    #are we doing damage to the player?
     isHittingPlayer(enemies, player)
     
-    
+
     #draw everything
     screen.fill(screenColor) #clear screen
+    bulletGroup.draw(screen)
     screen.blit(player.image, player.rect) #draw player
     enemies.draw(screen) #draw enemies to screen.
+    bulletGroup.update(screenWidth, screenHeight)
+    enemies.update()
 
     #this wipes away anything from last frame.
     pygame.display.update()
@@ -90,6 +98,9 @@ while running:
     gameLoops += 1
     clock.tick(120)
     
+
+    if player.health == 0:
+        running = False
 pygame.quit()
 
 
@@ -103,13 +114,10 @@ pygame.quit()
 #THESE ARE THE NOTES FOR THE PROJECT :))))
 
 
-
-#create enemy damage when hit player
-    #if enemy collide with player, player health -= damage
 #add sprite images to player / enemy
 #add sounds?
 #create map to navigate?
 #add different enemy types
-#add weapons to collect
+#add weapons to collect?
 #add ammo?
 #

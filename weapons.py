@@ -9,7 +9,7 @@ import pygame
 
 class weaponsClass(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.bulletSpeed = 3
         self.ammo = 0
         self.magSize = 0
@@ -24,5 +24,14 @@ class primaryWeapons(weaponsClass):
 
 class bulletClass(weaponsClass):
     def __init__(self, startX, startY):
-        pass
+        super().__init__()
+        self.image = pygame.Surface((15,15))
+        self.image.fill((0,0,0))
+        self.rect = self.image.get_rect()
+        self.rect.center = (startX, startY)
+
+    def update(self, screenWidth, screenHeight):
+        if self.rect.x > screenWidth or self.rect.x < 0 or self.rect.y > screenHeight or self.rect.y < 0:
+            self.kill()
+        
 
