@@ -2,7 +2,7 @@ import pygame
 import random
 from player import playerClass
 from enemies import *
-
+from functions import *
 
 pygame.init()
 
@@ -20,20 +20,13 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 
 #framerate
 clock = pygame.time.Clock()
-dt = 0
 
-
+#game running 
 running = True
 
 
-#player = pygame.Rect((300, 250, 50, 50))
-
-
-#create enemys 
+#create enemy group
 enemies = pygame.sprite.Group()
-#createEnemy(yellow, enemies, screenHeight, screenWidth)
-#createEnemy(yellow, enemies, screenHeight, screenWidth)
-
 
 #create player add him to sprite group
 player = playerClass(red, screenHeight//2, screenWidth//2, 50, 50)
@@ -43,9 +36,12 @@ playerGroup.add(player)
 
 
 gameLoops = 0
+
 #game loop
 while running:
 
+
+    #screen image
     screen.fill(screenColor)
 
 
@@ -53,9 +49,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif player.health == 0:
+            running = False
 
-
+    #check if enemeis are stacked
     areWeStacked(enemies)
+   
    #update enemie group
     enemies.update()
    
@@ -63,16 +62,17 @@ while running:
     enemies.draw(screen)
 
 
-    
     #check for player movement and if he is out of bounds.
     player.checkMovement()
     player.outBounds(screenHeight, screenWidth)
 
 
-    #enemie movement...
+    #enemie movement twoards player
     for enemy in enemies:
         enemy.pathForPlayer(player.rect.x, player.rect.y)
-
+    isHittingPlayer(enemies, player)
+    
+    
     #draw everything
     screen.fill(screenColor) #clear screen
     screen.blit(player.image, player.rect) #draw player
@@ -83,8 +83,7 @@ while running:
 
     
 
-    #add a new enemy every 100 loops :)
-
+    #add a new enemy every 100 loops :) (manipulate for fun stuff)
     if gameLoops % 1000 == 0:
         createEnemy(yellow, enemies, screenHeight, screenWidth)
 
@@ -104,9 +103,7 @@ pygame.quit()
 #THESE ARE THE NOTES FOR THE PROJECT :))))
 
 
-#create ability to shoot enemy 
-    #track mouse position and then check for if click
-    #if click take hyptonose of player pos to mouse pos then send "bullet" down the hyp checking for collsion with enemy
+
 #create enemy damage when hit player
     #if enemy collide with player, player health -= damage
 #add sprite images to player / enemy

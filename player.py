@@ -1,6 +1,5 @@
 import pygame
-
-
+import math
 
 player_image = pygame.image.load('mouse.png').convert_alpha
 
@@ -37,5 +36,4 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.bottom = screenH
         elif self.rect.top <= 0:
             self.rect.top = 0
-
 
