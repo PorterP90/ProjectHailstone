@@ -38,5 +38,12 @@ class bulletClass(weaponsClass):
         if self.rect.x > screenWidth or self.rect.x < 0 or self.rect.y > screenHeight or self.rect.y < 0:
             print("bullet is dead!")
             self.kill()
+            self.alive = False
+    
+    def hitEnemy(self, enmieGroup):
+        for enemy in enmieGroup:
+            if pygame.sprite.collide_rect(self, enemy):
+                self.kill()
+                self.alive = False
         
 

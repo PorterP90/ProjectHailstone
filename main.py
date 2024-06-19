@@ -96,6 +96,9 @@ while running:
 
     #are we doing damage to an enemie?
     isHitting(bulletGroup, enemies)
+    for bullet in bulletGroup:
+        bullet.hitEnemy(enemies)
+
 
     #draw everything
     screen.fill(screenColor) #clear screen
@@ -140,4 +143,4 @@ pygame.quit()
 #add different enemy types
 #add weapons to collect?
 #add ammo?
-#
+
