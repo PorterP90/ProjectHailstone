@@ -5,7 +5,10 @@ from enemies import *
 from functions import *
 
 pygame.init()
+pygame.mixer.init()
 
+backgroundSound = pygame.mixer.Sound('Kashmir (Remaster).mp3')
+bulletSound = pygame.mixer.Sound('M1911-FX1.mp3')
 
 
 #colors :)
@@ -13,7 +16,7 @@ pygame.init()
 red = (134, 49, 54)
 yellow = (219,214,7)
 
-#Create game window
+#Create game wind
 screenHeight, screenWidth = 500, 600
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
@@ -39,12 +42,16 @@ bulletGroup = pygame.sprite.Group()
 
 gameLoops = 0
 
+#pygame.mixer.__loader__(Kashmir (remaster.mp3))
+
 #game loop
+backgroundSound.play()
+
 while running:
 
 
     #screen image
-    screen.fill(screenColor)
+    #screen.fill(screenColor)
 
 
     #event handler
@@ -60,6 +67,8 @@ while running:
                 bulletGroup.add(bullet1)
                 #here we take the vector of the bullet and change the movement of it in its class.
                 bullet1.moveX, bullet1.moveY = bulletVector(player, bullet1)
+                bulletSound.play()
+                
                 #so in the game loop we need to update every bullet in the bullet class with their move line 79
 
     #check if enemeis are stacked
@@ -82,8 +91,11 @@ while running:
 
     
     #are we doing damage to the player?
-    isHittingPlayer(enemies, player)
-    
+    isHitting(enemies, playerGroup)
+
+
+    #are we doing damage to an enemie?
+    isHitting(bulletGroup, enemies)
 
     #draw everything
     screen.fill(screenColor) #clear screen
@@ -99,16 +111,18 @@ while running:
     
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    #if gameLoops % 1000 == 0:
-    #    createEnemy(yellow, enemies, screenHeight, screenWidth)
+    if gameLoops % 1000 == 0:#add sounds?
+        createEnemy(yellow, enemies, screenHeight, screenWidth)
 
     gameLoops += 1
     clock.tick(120)
     
-
+    #check for death
     if player.health == 0:
         running = False
+
 pygame.quit()
+
 
 
 
@@ -122,7 +136,6 @@ pygame.quit()
 
 
 #add sprite images to player / enemy
-#add sounds?
 #create map to navigate?
 #add different enemy types
 #add weapons to collect?

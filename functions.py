@@ -74,7 +74,10 @@ def bulletVector(player, bullet):
 
 
 
-def isHittingPlayer(enemyGroup, player):
-     for enemy in enemyGroup:
-        if pygame.sprite.collide_rect(enemy, player):
-             player.health -= enemy.damage
+def isHitting(objectGroup, opposition):
+     for object in objectGroup:
+        for opp in opposition:
+            if pygame.sprite.collide_rect(object, opp):
+                opp.health -= object.damage
+                print(opp)
+                print(opp.health)
