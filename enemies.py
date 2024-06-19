@@ -18,7 +18,7 @@ class EnemieClass(pygame.sprite.Sprite):
         self.image.fill(col)
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
-        self.health = 10
+        self.health = 100
         self.speed = 1
         self.damage = 1
         self.alive = True

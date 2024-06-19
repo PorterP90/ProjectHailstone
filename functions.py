@@ -19,7 +19,6 @@ def createEnemy(color, enemyGroup, screenHeight, screenWidth):
         newEnemy = EnemieClass(color, n, m)
         enemyGroup.add(newEnemy)
 
-
 def areWeStacked(enemyGroup):
     #create enemy collisions so they cant stack each other 
         #so I need to take all enemies in the enemy group and check if touching? 

@@ -12,17 +12,17 @@ bulletSound = pygame.mixer.Sound('M1911-FX1.mp3')
 
 
 #colors :)
-
 red = (134, 49, 54)
 yellow = (219,214,7)
 
-#Create game wind
+#Create game window
 screenHeight, screenWidth = 500, 600
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 
 #framerate
 clock = pygame.time.Clock()
+freamerate = 120
 
 #game running 
 running = True
@@ -36,7 +36,7 @@ player = playerClass(red, screenHeight//2, screenWidth//2, 50, 50)
 playerGroup = pygame.sprite.Group() 
 playerGroup.add(player)
 
-
+#create the bullet group *thumbs up*
 bulletGroup = pygame.sprite.Group()
 
 
@@ -96,17 +96,18 @@ while running:
 
     #are we doing damage to an enemie?
     isHitting(bulletGroup, enemies)
+    #update if bullet hit an enemy
     for bullet in bulletGroup:
         bullet.hitEnemy(enemies)
 
 
     #draw everything
     screen.fill(screenColor) #clear screen
-    bulletGroup.draw(screen)
+    bulletGroup.draw(screen) #draw our bullets
     screen.blit(player.image, player.rect) #draw player
     enemies.draw(screen) #draw enemies to screen.
-    bulletGroup.update(screenWidth, screenHeight)
-    enemies.update()
+    bulletGroup.update(screenWidth, screenHeight) #update bullets
+    enemies.update() #update our enemys 
 
     #this wipes away anything from last frame.
     pygame.display.update()
@@ -118,7 +119,7 @@ while running:
         createEnemy(yellow, enemies, screenHeight, screenWidth)
 
     gameLoops += 1
-    clock.tick(120)
+    clock.tick(freamerate)
     
     #check for death
     if player.health == 0:

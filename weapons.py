@@ -13,7 +13,7 @@ class weaponsClass(pygame.sprite.Sprite):
         self.bulletSpeed = 3
         self.ammo = 0
         self.magSize = 0
-        self.damage = 1
+        self.damage = 25
         self.weaponSlot = None
 
     

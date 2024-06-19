@@ -10,10 +10,9 @@ class playerClass(pygame.sprite.Sprite):
     def __init__(self, color,x ,y, width, height):
         pygame.sprite.Sprite.__init__(self)
         self.health = 100
-        self.image = pygame.Surface((width,height))
+        self.image = pygame.image.load('mouse.png').convert_alpha()
         self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.center = (x, y)
+        self.rect = self.image.get_rect(center = (x//2, y//2))
         self.speed = 2
 
     def checkMovement(self):
