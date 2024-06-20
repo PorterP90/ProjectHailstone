@@ -6,10 +6,13 @@ from functions import *
 
 pygame.init()
 pygame.mixer.init()
+pygame.font.init()
 
 backgroundSound = pygame.mixer.Sound('Kashmir (Remaster).mp3')
 bulletSound = pygame.mixer.Sound('M1911-FX1.mp3')
 
+backgroundSound.set_volume(.5)
+bulletSound.set_volume(.6)
 
 #colors :)
 red = (134, 49, 54)
@@ -32,7 +35,7 @@ running = True
 enemies = pygame.sprite.Group()
 
 #create player add him to sprite group
-player = playerClass(red, screenHeight//2, screenWidth//2, 50, 50)
+player = playerClass(screenHeight//2, screenWidth//2)
 playerGroup = pygame.sprite.Group() 
 playerGroup.add(player)
 
@@ -59,7 +62,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         #so this is working... but nothing on screen is happening
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN and player.ammo != 0:
             mouseX,mouseY = pygame.mouse.get_pos()
             startX, startY = player.rect.center[0], player.rect.center[1]
             if event.button == 1:
@@ -68,6 +71,7 @@ while running:
                 #here we take the vector of the bullet and change the movement of it in its class.
                 bullet1.moveX, bullet1.moveY = bulletVector(player, bullet1)
                 bulletSound.play()
+                player.ammo -= 1
                 
                 #so in the game loop we need to update every bullet in the bullet class with their move line 79
 
@@ -83,7 +87,7 @@ while running:
 
     #enemie movement twoards player
     for enemy in enemies:
-        enemy.pathForPlayer(player.rect.x, player.rect.y)
+        enemy.pathForPlayer(player)
     
     for bullet in bulletGroup:
         bullet.rect.x += bullet.moveX
@@ -102,21 +106,22 @@ while running:
 
 
     #draw everything
-    screen.fill(screenColor) #clear screen
+    
     bulletGroup.draw(screen) #draw our bullets
     screen.blit(player.image, player.rect) #draw player
-    enemies.draw(screen) #draw enemies to screen.
+    for enemy in enemies:
+        screen.blit(enemy.image, enemy.rect) #draw enemies to screen.
     bulletGroup.update(screenWidth, screenHeight) #update bullets
     enemies.update() #update our enemys 
 
     #this wipes away anything from last frame.
     pygame.display.update()
-
-    
+    pygame.display.flip()
+    screen.fill(screenColor) #clear screen
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    if gameLoops % 1000 == 0:#add sounds?
-        createEnemy(yellow, enemies, screenHeight, screenWidth)
+    if gameLoops % 200 == 0:#add sounds?
+        createEnemy(enemies, screenHeight, screenWidth)
 
     gameLoops += 1
     clock.tick(freamerate)
@@ -124,6 +129,9 @@ while running:
     #check for death
     if player.health == 0:
         running = False
+    
+    ammoMessage = f"Ammo: {player.ammo}"
+    render_text(screen, ammoMessage, 75, 18, 35)
 
 pygame.quit()
 
@@ -138,10 +146,14 @@ pygame.quit()
 
 #THESE ARE THE NOTES FOR THE PROJECT :))))
 
+#add ammo (funcitonal / visual)
+#make it so enemys dont go on top of player (functional)
+#make hit markers for bullet and enemy hits (audio thing)
+#make bullet images that rotate dependent upon firing vector (visual)
 
-#add sprite images to player / enemy
-#create map to navigate?
-#add different enemy types
-#add weapons to collect?
-#add ammo?
+#create map to navigate? (visual / funtional)
+#add different enemy types (functional)
+#add weapons to collect? (funtional)
 
+
+#trim gunshot audio

@@ -10,14 +10,10 @@ black = (0,0,0)
 
 
 class EnemieClass(pygame.sprite.Sprite):
-    def __init__(self, col, x, y, width = 25, height = 25):
+    def __init__(self, x, y,):
         pygame.sprite.Sprite.__init__(self)
-        self.width = width
-        self.height = height
-        self.image = pygame.Surface((width,height))
-        self.image.fill(col)
-        self.rect = self.image.get_rect()
-        self.rect.center = (x,y)
+        self.image = pygame.image.load('zombie.png')
+        self.rect = self.image.get_rect(center = (x//2, y//2))
         self.health = 100
         self.speed = 1
         self.damage = 1
@@ -26,11 +22,11 @@ class EnemieClass(pygame.sprite.Sprite):
 
 
     #takes the enemies x, y coordinate and slowly transverses the hypotinose to the players x y cord, should change when player x y changes
-    def pathForPlayer(self, playerX, playerY):
+    def pathForPlayer(self, player):
         # Calculate vector from enemy to player
         if self.alive:
-            dx = playerX - self.rect.x
-            dy = playerY - self.rect.y
+            dx = player.rect.center[0] - self.rect.center[0]
+            dy = player.rect.center[1] - self.rect.center[1]
 
             # Calculate the distance to the player
             dist = math.hypot(dx, dy)

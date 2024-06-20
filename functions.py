@@ -6,7 +6,7 @@ from player import playerClass
 from weapons import bulletClass
 
 
-def createEnemy(color, enemyGroup, screenHeight, screenWidth):
+def createEnemy(enemyGroup, screenHeight, screenWidth):
         if random.choice([True, False]):
             n = random.randint(-250, -50)
         else:
@@ -16,7 +16,7 @@ def createEnemy(color, enemyGroup, screenHeight, screenWidth):
         else:
             m =random.randint((screenHeight + 50), (screenHeight+250))
         
-        newEnemy = EnemieClass(color, n, m)
+        newEnemy = EnemieClass(n, m)
         enemyGroup.add(newEnemy)
 
 def areWeStacked(enemyGroup):
@@ -81,3 +81,10 @@ def isHitting(objectGroup, opposition):
                 print(opp)
                 print(opp.health)
 
+
+def render_text(screen, text, x, y, font_size=12, font_color=(255, 255, 255)):
+    font = pygame.font.SysFont(None, font_size)  # Use default system font
+    text_surface = font.render(str(text), True, font_color)
+    text_rect = text_surface.get_rect()
+    text_rect.center = (x, y)
+    screen.blit(text_surface, text_rect)

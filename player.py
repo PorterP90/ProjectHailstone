@@ -7,15 +7,14 @@ player_image = pygame.image.load('mouse.png').convert_alpha
 #screen.blit(player_image, x, y)
 
 class playerClass(pygame.sprite.Sprite):
-    def __init__(self, color,x ,y, width, height):
+    def __init__(self, x ,y):
         pygame.sprite.Sprite.__init__(self)
         self.health = 100
-        self.image = pygame.image.load('mouse.png').convert_alpha()
-        self.image.fill(color)
+        self.image = pygame.image.load('mouse.png')
+        #self.image.fill(color)
         self.rect = self.image.get_rect(center = (x//2, y//2))
         self.speed = 2
-        self.centerX = x//2
-        self.centerY = y//2
+        self.ammo = 100
 
     def checkMovement(self):
         key = pygame.key.get_pressed()
