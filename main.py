@@ -16,7 +16,7 @@ red = (134, 49, 54)
 yellow = (219,214,7)
 
 #Create game window
-screenHeight, screenWidth = 500, 600
+screenHeight, screenWidth = 1000, 1200
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 
@@ -61,9 +61,9 @@ while running:
         #so this is working... but nothing on screen is happening
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouseX,mouseY = pygame.mouse.get_pos()
-            startX, startY = player.rect.x, player.rect.y
+            startX, startY = player.rect.center[0], player.rect.center[1]
             if event.button == 1:
-                bullet1 = bulletClass(player.rect.x, player.rect.y) #createBullet(player)
+                bullet1 = bulletClass(startX, startY) #createBullet(player)
                 bulletGroup.add(bullet1)
                 #here we take the vector of the bullet and change the movement of it in its class.
                 bullet1.moveX, bullet1.moveY = bulletVector(player, bullet1)

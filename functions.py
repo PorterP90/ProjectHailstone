@@ -44,7 +44,7 @@ def areWeStacked(enemyGroup):
 def createBullet(player):
     #create a bullet rect/sprite and give its starting x,y = players x,y
     #becasue we only create a bullet when player is shooting...
-    bullet = bulletClass(player.rect.x, player.rect.y)
+    bullet = bulletClass(player.center.x, player.center.y)
 
 def bulletVector(player, bullet):
     #create ability to shoot enemy 

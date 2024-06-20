@@ -10,7 +10,7 @@ import pygame
 class weaponsClass(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.bulletSpeed = 3
+        self.bulletSpeed = 5
         self.ammo = 0
         self.magSize = 0
         self.damage = 25

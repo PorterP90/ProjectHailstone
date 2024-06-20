@@ -14,6 +14,8 @@ class playerClass(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect(center = (x//2, y//2))
         self.speed = 2
+        self.centerX = x//2
+        self.centerY = y//2
 
     def checkMovement(self):
         key = pygame.key.get_pressed()
