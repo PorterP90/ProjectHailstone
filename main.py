@@ -41,6 +41,7 @@ playerGroup.add(player)
 
 #create the bullet group *thumbs up*
 bulletGroup = pygame.sprite.Group()
+ammoGroup = pygame.sprite.Group()
 
 
 gameLoops = 0
@@ -111,8 +112,13 @@ while running:
     screen.blit(player.image, player.rect) #draw player
     for enemy in enemies:
         screen.blit(enemy.image, enemy.rect) #draw enemies to screen.
+    for box in ammoGroup:
+        screen.blit(box.image, box.rect)
+        box.collected(player)
     bulletGroup.update(screenWidth, screenHeight) #update bullets
     enemies.update() #update our enemys 
+    ammoGroup.update()
+
 
     #this wipes away anything from last frame.
     pygame.display.update()
@@ -122,6 +128,13 @@ while running:
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
     if gameLoops % 200 == 0:#add sounds?
         createEnemy(enemies, screenHeight, screenWidth)
+
+    #add ammo box to screen to collect
+    if gameLoops % 1000 == 0:
+       createAmmo(screenHeight, screenWidth, ammoGroup)
+
+
+
 
     gameLoops += 1
     clock.tick(freamerate)

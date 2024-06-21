@@ -4,6 +4,7 @@ import math
 from enemies import EnemieClass
 from player import playerClass
 from weapons import bulletClass
+from ammo import ammoBoxs
 
 
 def createEnemy(enemyGroup, screenHeight, screenWidth):
@@ -88,3 +89,10 @@ def render_text(screen, text, x, y, font_size=12, font_color=(255, 255, 255)):
     text_rect = text_surface.get_rect()
     text_rect.center = (x, y)
     screen.blit(text_surface, text_rect)
+
+
+def createAmmo(screenH, screenW, ammoGroup):
+    x = random.randint(25, screenH)
+    y = random.randint(25, screenW)
+    ammoBox = ammoBoxs(x, y)
+    ammoGroup.add(ammoBox)
