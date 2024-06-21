@@ -3,20 +3,16 @@ import random
 from player import playerClass
 from enemies import *
 from functions import *
+from weaponList import *
 
 pygame.init()
 pygame.mixer.init()
 pygame.font.init()
 
 backgroundSound = pygame.mixer.Sound('Kashmir (Remaster).mp3')
-bulletSound = pygame.mixer.Sound('M1911-FX1.mp3')
 
 backgroundSound.set_volume(.5)
-bulletSound.set_volume(.6)
 
-#colors :)
-red = (134, 49, 54)
-yellow = (219,214,7)
 
 #Create game window
 screenHeight, screenWidth = 1000, 1200
@@ -64,26 +60,12 @@ while running:
             running = False
         #so this is working... but nothing on screen is happening
         elif event.type == pygame.MOUSEBUTTONDOWN and player.ammo != 0:
-            mouseX,mouseY = pygame.mouse.get_pos()
-            startX, startY = player.rect.center[0], player.rect.center[1]
-            if event.button == 1:
-                bullet1 = bulletClass(startX, startY) #createBullet(player)
-                bulletGroup.add(bullet1)
-                #here we take the vector of the bullet and change the movement of it in its class.
-                bullet1.moveX, bullet1.moveY = bulletVector(player, bullet1)
-                bulletSound.play()
-                player.ammo -= 1
-                
-                #so in the game loop we need to update every bullet in the bullet class with their move line 79
+            player.shooting(bulletGroup, event)
+
 
     #check if enemeis are stacked
     areWeStacked(enemies)
    
-
-    #check for player movement and if he is out of bounds.
-    player.checkMovement()
-    player.outBounds(screenHeight, screenWidth)
-    
 
 
     #enemie movement twoards player
@@ -99,9 +81,7 @@ while running:
     isHitting(enemies, playerGroup)
 
 
-    #are we doing damage to an enemie?
-    isHitting(bulletGroup, enemies)
-    #update if bullet hit an enemy
+    #are we doing damage to an enemy
     for bullet in bulletGroup:
         bullet.hitEnemy(enemies)
 
@@ -115,9 +95,12 @@ while running:
     for box in ammoGroup:
         screen.blit(box.image, box.rect)
         box.collected(player)
+
+    #update our groups
     bulletGroup.update(screenWidth, screenHeight) #update bullets
     enemies.update() #update our enemys 
     ammoGroup.update()
+    player.update(screenHeight, screenWidth)
 
 
     #this wipes away anything from last frame.
@@ -131,7 +114,7 @@ while running:
 
     #add ammo box to screen to collect
     if gameLoops % 1000 == 0:
-       createAmmo(screenHeight, screenWidth, ammoGroup)
+       createAmmoBox(screenHeight, screenWidth, ammoGroup)
 
 
 
@@ -157,16 +140,3 @@ pygame.quit()
 
 
 
-#THESE ARE THE NOTES FOR THE PROJECT :))))
-
-#add ammo (funcitonal / visual)
-#make it so enemys dont go on top of player (functional)
-#make hit markers for bullet and enemy hits (audio thing)
-#make bullet images that rotate dependent upon firing vector (visual)
-
-#create map to navigate? (visual / funtional)
-#add different enemy types (functional)
-#add weapons to collect? (funtional)
-
-
-#trim gunshot audio

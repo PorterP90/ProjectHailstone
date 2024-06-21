@@ -1,0 +1,35 @@
+
+
+
+
+
+THESE ARE THE NOTES FOR THE PROJECT aka things to get done:))))
+
+
+player shooting fix
+    -im trying to figure out how to add whenever our player shoots
+    -I need the game to figure out what weapon im holding
+    -then based on the stats of that weapon create the bullet etc etc
+    -
+
+make ammo clip / reserve 
+    -so I need to make a magazine for the weapon and have player resersve ammo?
+    -only shoot when ammo in the magazine
+    -if R is pressed reload the magazine with max mag size form reserve
+    -ammo boxs add to the reserve
+    -draw both reserve and magazine ammo onto screen
+make pause screen
+make it so zombies face player ie: coming in from the right they flip so they look as if chasing player.
+make it so enemys dont go on top of player (functional)
+make hit markers for bullet and enemy hits (audio thing)
+make bullet images that rotate dependent upon firing vector (visual)
+
+create map to navigate? (visual / funtional)
+add different enemy types (functional)
+add weapons to collect? (funtional)
+
+
+trim gunshot audio(@D&B)
+
+
+

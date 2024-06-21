@@ -1,5 +1,7 @@
 import pygame
 import math
+from weapons import bulletClass
+
 
 player_image = pygame.image.load('mouse.png').convert_alpha
 
@@ -15,6 +17,7 @@ class playerClass(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = (x//2, y//2))
         self.speed = 2
         self.ammo = 50
+        self.activeWeaponSlot = 2
 
     def checkMovement(self):
         key = pygame.key.get_pressed()
@@ -37,3 +40,18 @@ class playerClass(pygame.sprite.Sprite):
         elif self.rect.top <= 0:
             self.rect.top = 0
 
+    def shooting(self, bulletGroup, event):
+                mouseX, mouseY = pygame.mouse.get_pos()
+                startX, startY = self.rect.center[0], self.rect.center[1]
+                if event.button == 1:
+                    bullet1 = bulletClass(startX, startY) #createBullet(player)
+                    bulletGroup.add(bullet1)
+                    #here we take the vector of the bullet and change the movement of it in its class.
+                    bullet1.moveX, bullet1.moveY = bullet1.bulletVector(self)
+                    bullet1.sound.play()
+                    self.ammo -= 1
+ 
+
+    def update(self, screenH, screenW):
+        self.checkMovement()
+        self.outBounds(screenH, screenW)
