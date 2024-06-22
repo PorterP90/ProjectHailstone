@@ -3,7 +3,7 @@ import random
 from player import playerClass
 from enemies import *
 from functions import *
-from weaponList import *
+from weapons import *
 
 pygame.init()
 pygame.mixer.init()
@@ -32,6 +32,8 @@ enemies = pygame.sprite.Group()
 
 #create player add him to sprite group
 player = playerClass(screenHeight//2, screenWidth//2)
+player.weapon2 = M1911
+player.activeWeapon = player.weapon2
 playerGroup = pygame.sprite.Group() 
 playerGroup.add(player)
 
@@ -49,20 +51,23 @@ backgroundSound.play()
 
 while running:
 
-
-    #screen image
-    #screen.fill(screenColor)
-
-
     #event handler
     for event in pygame.event.get():
+    
         if event.type == pygame.QUIT:
             running = False
-        #so this is working... but nothing on screen is happening
-        elif event.type == pygame.MOUSEBUTTONDOWN and player.ammo != 0:
-            player.shooting(bulletGroup, event)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if player.activeWeapon.magAmmo != 0:
+                player.shooting(bulletGroup, event)
 
-
+    print("chekcing keys...")
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_r]:
+        player.reloadWeapon()
+        print("r key pressed")
+    if keys[pygame.K_g]:
+        player.dropWeapon
+    
     #check if enemeis are stacked
     areWeStacked(enemies)
    
@@ -101,7 +106,9 @@ while running:
     enemies.update() #update our enemys 
     ammoGroup.update()
     player.update(screenHeight, screenWidth)
-
+    #player.reloadWeapon()
+    #player.switchWeapon()
+    #player.dropWeapon()
 
     #this wipes away anything from last frame.
     pygame.display.update()
@@ -109,8 +116,8 @@ while running:
     screen.fill(screenColor) #clear screen
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    if gameLoops % 200 == 0:#add sounds?
-        createEnemy(enemies, screenHeight, screenWidth)
+    #if gameLoops % 200 == 0:#add sounds?
+    #   createEnemy(enemies, screenHeight, screenWidth)
 
     #add ammo box to screen to collect
     if gameLoops % 1000 == 0:
@@ -126,7 +133,7 @@ while running:
     if player.health == 0:
         running = False
     
-    ammoMessage = f"Ammo: {player.ammo}"
+    ammoMessage = f"Ammo: {player.activeWeapon.magAmmo} / {player.activeWeapon.reserveAmmo}"
     render_text(screen, ammoMessage, 75, 18, 35)
 
 pygame.quit()

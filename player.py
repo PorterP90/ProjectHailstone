@@ -10,14 +10,18 @@ player_image = pygame.image.load('mouse.png').convert_alpha
 
 class playerClass(pygame.sprite.Sprite):
     def __init__(self, x ,y):
+        #draw player
         pygame.sprite.Sprite.__init__(self)
-        self.health = 100
         self.image = pygame.image.load('mouse.png')
-        #self.image.fill(color)
         self.rect = self.image.get_rect(center = (x//2, y//2))
+        #functionality below
         self.speed = 2
-        self.ammo = 50
-        self.activeWeaponSlot = 2
+        self.health = 100
+        self.activeWeapon = None
+        self.weapon1 = None
+        self.weapon2 = None
+        self.weapon3 = None
+        
 
     def checkMovement(self):
         key = pygame.key.get_pressed()
@@ -43,14 +47,51 @@ class playerClass(pygame.sprite.Sprite):
     def shooting(self, bulletGroup, event):
                 mouseX, mouseY = pygame.mouse.get_pos()
                 startX, startY = self.rect.center[0], self.rect.center[1]
-                if event.button == 1:
+                if event.button == 1: #check for left click
                     bullet1 = bulletClass(startX, startY) #createBullet(player)
+                    bullet1.damage = self.activeWeapon.damage
                     bulletGroup.add(bullet1)
                     #here we take the vector of the bullet and change the movement of it in its class.
                     bullet1.moveX, bullet1.moveY = bullet1.bulletVector(self)
-                    bullet1.sound.play()
-                    self.ammo -= 1
- 
+                    bullet1.sound.play() #eventuall change to the actual weapons sound
+                    self.activeWeapon.magAmmo -= 1
+    
+    def dropWeapon(self):
+        key = pygame.key.get_pressed()
+        if key[pygame.K_g]:
+            self.activeWeapon = None
+    
+    def switchWeapon(self):
+        key = pygame.key.get_pressed()
+        if key[pygame.K_1] and self.weapon1 != None:
+            self.activeWeapon = self.weapon1
+        elif key[pygame.K_2] and self.weapon2 != None:
+            self.activeWeapon = self.weapon2
+        elif key[pygame.K_3]:
+            self.activeWeapon = self.weapon3
+
+    def reloadWeapon(self):
+        if self.activeWeapon.magAmmoMax < self.activeWeapon.magAmmo and self.activeWeapon.reserveAmmo < 0:
+            print("enetered main if statement")
+            #add up to total magAmmoMax if cant fill all the way add all of reserve to activeammo
+            toAdd = self.activeWeapon.magAmmoMax - self.activeWeapon.magAmmo
+            if toAdd > self.activeWeapon.reserveAmmo:
+                print("added second if statment")
+                self.activeWeapon.magAmmo += self.activeWeapon.reserveAmmo
+                self.activeWeapon.reserveAmmo = 0
+            else:
+                print("we have hit the else statment")
+                self.activeWeapon.magAmmo = self.activeWeapon.magAmmoMax
+                self.activeWeapon.reserveAmmo -= toAdd
+       
+            print("RELOADING!!!!")
+        else:
+            print("CANNOT RELOAD")
+        
+
+                
+            
+             
 
     def update(self, screenH, screenW):
         self.checkMovement()

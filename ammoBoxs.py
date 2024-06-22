@@ -11,7 +11,7 @@ class ammoBoxs(pygame.sprite.Sprite):
 
     def collected(self, player):
         if pygame.sprite.collide_rect(self, player):
-            player.ammo += self.bulletCount
+            player.activeWeapon.reserveAmmo += self.bulletCount
             self.alive = False
             return True
         return

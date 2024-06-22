@@ -7,25 +7,32 @@ THESE ARE THE NOTES FOR THE PROJECT aka things to get done:))))
 
 
 player shooting fix
-    -im trying to figure out how to add whenever our player shoots
-    -I need the game to figure out what weapon im holding
-    -then based on the stats of that weapon create the bullet etc etc
-    -
+    -implement reload (half solved good luck)
+    -implement switch weapons
+    -implement drop weapon
 
 make ammo clip / reserve 
-    -so I need to make a magazine for the weapon and have player resersve ammo?
-    -only shoot when ammo in the magazine
-    -if R is pressed reload the magazine with max mag size form reserve
-    -ammo boxs add to the reserve
-    -draw both reserve and magazine ammo onto screen
-make pause screen
+    
+
+Make pause screen
+    -design the screen a resume button 
+    -add exit button takes me to Main screen?
+Make main game screen
+    -deasign a welcome to game screen
+    -add a click to play button
+
 make it so zombies face player ie: coming in from the right they flip so they look as if chasing player.
+
 make it so enemys dont go on top of player (functional)
+
 make hit markers for bullet and enemy hits (audio thing)
+
 make bullet images that rotate dependent upon firing vector (visual)
 
 create map to navigate? (visual / funtional)
+
 add different enemy types (functional)
+
 add weapons to collect? (funtional)
 
 
@@ -33,3 +40,21 @@ trim gunshot audio(@D&B)
 
 
 
+
+
+
+
+THIS IS ALL THE WORK I'VE DONE SINCE LAST COMMIT TO HELP ME TRACK :)
+
+make ammo clip / reserve 
+    -so I need to make a magazine for the weapon and have player resersve ammo? (DONE) (lowkey note is confusing but I think I did it)
+    -only shoot when ammo in the magazine (DONE)
+    -if R is pressed reload the magazine with max mag size form reserve(DONE)
+    -also did a drop weapon funciton (DONE )
+    -also did a switch weapon function (DONE)
+    -ammo boxs add to the reserve (DONE)
+    --draw both reserve and magazine ammo onto screen(DONE)
+
+player shooting fix
+    -I need the game to figure out what weapon im holding (DONE)
+    -In shooting function make it call the specfic weapon shooting with activeWeapon (DONE)

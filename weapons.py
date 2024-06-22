@@ -20,20 +20,38 @@ class weaponsClass(pygame.sprite.Sprite):
         self.damage = 25
         self.weaponSlot = None
         self.sound = bulletSound
+    
+    def isAuto(self):
+        if self.automatic == True:
+            return True
+        else:
+            return False
 
     
 class primaryWeapons(weaponsClass):
-    def __init__(self):
+    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate):
         super().__init__()
-        self.weaponSlot = 1 #aka key number 1
-        self.bulletSpeed = 8
+        self.weaponSlot = 1 
+        self.reserveAmmo = reserveAmmo
+        self.magAmmoMax = magAmmoMax
+        self.magAmmo = magAmmo
+        self.damage = damage
+        self.automatic = automatic #This should be a bool
+        self.firingRate = firingRate
+
 
 
 class secondaryWeapons(weaponsClass):
-    def __init__(self):
+    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate):
         super().__init__()
         self.weaponSlot = 2
-        
+        self.reserveAmmo = reserveAmmo
+        self.magAmmo = magAmmo
+        self.magAmmoMax = magAmmoMax
+        self.damage = damage
+        self. automatic = automatic
+        self.firingRate = firingRate
+    
 
 
 #This class draws and moves the bullet as well as does damage to player... thats all it needs to do
@@ -81,13 +99,22 @@ class bulletClass(weaponsClass):
     def hitEnemy(self, enmieGroup):
         for enemy in enmieGroup:
             if pygame.sprite.collide_rect(self, enemy):
-                enemy.health -= self.damage
+                enemy.health -= self.damage 
                 self.kill()
                 self.alive = False
-        
 
 
 
 
 
+#rifles
+#M4A4 = primaryWeapons(50, 25, 50 , True, 8)
+#AK47 = primaryWeapons(50, 30, 40, True, 7)
 
+
+
+#pistols
+M1911 = secondaryWeapons(24, 15, 15, 25, False, 0)
+#GLOCK20 = secondaryWeapons(25, 20, 25, False, 0)
+#CZ75 = secondaryWeapons(14, 14, 20, True, 10)
+#DEAGLE = secondaryWeapons(14, 7, 50, False, 0)
