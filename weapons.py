@@ -15,11 +15,9 @@ class weaponsClass(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.bulletSpeed = 5
-        self.ammo = 25
-        self.magSize = None
-        self.damage = 25
-        self.weaponSlot = None
         self.sound = bulletSound
+        self.weaponSlot = None
+
     
     def isAuto(self):
         if self.automatic == True:
@@ -29,29 +27,31 @@ class weaponsClass(pygame.sprite.Sprite):
 
     
 class primaryWeapons(weaponsClass):
-    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate):
+    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate, reloadTime, pullOutTime, reloadAudio, shootAudio):
         super().__init__()
+        self.reserveAmmo = reserveAmmo
+        self.magAmmo = magAmmo
+        self.magAmmoMax = magAmmoMax
+        self.damage = damage
+        self.automatic = automatic
+        self.firingRate = firingRate
+        self.reloadTime = reloadTime
+        self.pullOutTime = pullOutTime
+        self.reloadAudio = reloadAudio
+        self.shootAudio = shootAudio
         self.weaponSlot = 1 
-        self.reserveAmmo = reserveAmmo
-        self.magAmmoMax = magAmmoMax
-        self.magAmmo = magAmmo
-        self.damage = damage
-        self.automatic = automatic #This should be a bool
-        self.firingRate = firingRate
 
 
 
-class secondaryWeapons(weaponsClass):
-    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate):
-        super().__init__()
+class secondaryWeapons(primaryWeapons):
+    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate, reloadTime, pullOutTime, reloadAudio, shootAudio):
+        super().__init__(reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate, reloadTime, pullOutTime, reloadAudio, shootAudio)
         self.weaponSlot = 2
-        self.reserveAmmo = reserveAmmo
-        self.magAmmo = magAmmo
-        self.magAmmoMax = magAmmoMax
-        self.damage = damage
-        self. automatic = automatic
-        self.firingRate = firingRate
     
+class melleWeapons(weaponsClass):
+    def __init__(self):
+        super().__init__()
+
 
 
 #This class draws and moves the bullet as well as does damage to player... thats all it needs to do
@@ -105,16 +105,18 @@ class bulletClass(weaponsClass):
 
 
 
-
+M4A4bulletSound = pygame.mixer.Sound("M4A4_shootSound.mp3")
+M4A4reloadSound = pygame.mixer.Sound("M4A4_Reload.mp3")
 
 #rifles
-#M4A4 = primaryWeapons(50, 25, 50 , True, 8)
+M4A4 = primaryWeapons(50, 25, 25, 50 , True, 8, 3000, 1000, M4A4reloadSound ,M4A4bulletSound)
 #AK47 = primaryWeapons(50, 30, 40, True, 7)
 
 
-
+M1911bulletSound = bulletSound
+M1911reloadSound = pygame.mixer.Sound("M1911_Reload.mp3")
 #pistols
-M1911 = secondaryWeapons(24, 15, 15, 25, False, 0)
+M1911 = secondaryWeapons(24, 15, 15, 25, False, 0, 2000, 1000, M1911reloadSound , M1911bulletSound)
 #GLOCK20 = secondaryWeapons(25, 20, 25, False, 0)
 #CZ75 = secondaryWeapons(14, 14, 20, True, 10)
 #DEAGLE = secondaryWeapons(14, 7, 50, False, 0)

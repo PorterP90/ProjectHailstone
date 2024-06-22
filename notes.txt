@@ -7,7 +7,6 @@ THESE ARE THE NOTES FOR THE PROJECT aka things to get done:))))
 
 
 player shooting fix
-    -implement reload (half solved good luck)
     -implement switch weapons
     -implement drop weapon
 
@@ -46,6 +45,14 @@ trim gunshot audio(@D&B)
 
 THIS IS ALL THE WORK I'VE DONE SINCE LAST COMMIT TO HELP ME TRACK :)
 
+
+June 22/2024 COMPLETED TASKS
+player shooting fix
+    -implement reload (DONE)
+
+
+
+June 21/2024 COMPLETED TASKS
 make ammo clip / reserve 
     -so I need to make a magazine for the weapon and have player resersve ammo? (DONE) (lowkey note is confusing but I think I did it)
     -only shoot when ammo in the magazine (DONE)

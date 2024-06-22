@@ -32,8 +32,9 @@ enemies = pygame.sprite.Group()
 
 #create player add him to sprite group
 player = playerClass(screenHeight//2, screenWidth//2)
+player.weapon1 = M4A4
 player.weapon2 = M1911
-player.activeWeapon = player.weapon2
+player.activeWeapon = player.weapon1
 playerGroup = pygame.sprite.Group() 
 playerGroup.add(player)
 
@@ -65,8 +66,13 @@ while running:
     if keys[pygame.K_r]:
         player.reloadWeapon()
         print("r key pressed")
-    if keys[pygame.K_g]:
-        player.dropWeapon
+    if keys[pygame.K_1]:
+        player.switchWeapon()
+    if keys[pygame.K_2]:
+        player.switchWeapon()
+    if keys[pygame.K_3]:
+        player.switchWeapon()
+
     
     #check if enemeis are stacked
     areWeStacked(enemies)
@@ -133,6 +139,8 @@ while running:
     if player.health == 0:
         running = False
     
+
+    print(player.activeWeapon)
     ammoMessage = f"Ammo: {player.activeWeapon.magAmmo} / {player.activeWeapon.reserveAmmo}"
     render_text(screen, ammoMessage, 75, 18, 35)
 

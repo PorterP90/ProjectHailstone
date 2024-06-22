@@ -53,13 +53,22 @@ class playerClass(pygame.sprite.Sprite):
                     bulletGroup.add(bullet1)
                     #here we take the vector of the bullet and change the movement of it in its class.
                     bullet1.moveX, bullet1.moveY = bullet1.bulletVector(self)
-                    bullet1.sound.play() #eventuall change to the actual weapons sound
+                    self.activeWeapon.shootAudio.play() #eventuall change to the actual weapons sound
                     self.activeWeapon.magAmmo -= 1
     
-    def dropWeapon(self):
-        key = pygame.key.get_pressed()
-        if key[pygame.K_g]:
-            self.activeWeapon = None
+    #def dropWeapon(self):
+            #this just sets our active weapon to none, but we need to set our weapon to none
+    #        if self.activeWeapon == self.weapon2:
+    #            self.weapon2 = None
+    #            self.activeWeapon = self.weapon3
+    #            print("secondary dropped, new weapon knife")
+    #            return
+    #        elif self.activeWeapon == self.weapon1:
+    #             self.weapon1 = None
+    #             self.activeWeapon = self.weapon2
+    #             print("Primary weapon dropped, new weapon is secondary")
+    #             return
+
     
     def switchWeapon(self):
         key = pygame.key.get_pressed()
@@ -71,22 +80,20 @@ class playerClass(pygame.sprite.Sprite):
             self.activeWeapon = self.weapon3
 
     def reloadWeapon(self):
-        if self.activeWeapon.magAmmoMax < self.activeWeapon.magAmmo and self.activeWeapon.reserveAmmo < 0:
-            print("enetered main if statement")
+        if self.activeWeapon.magAmmoMax > self.activeWeapon.magAmmo and self.activeWeapon.reserveAmmo > 0:
             #add up to total magAmmoMax if cant fill all the way add all of reserve to activeammo
             toAdd = self.activeWeapon.magAmmoMax - self.activeWeapon.magAmmo
             if toAdd > self.activeWeapon.reserveAmmo:
-                print("added second if statment")
                 self.activeWeapon.magAmmo += self.activeWeapon.reserveAmmo
                 self.activeWeapon.reserveAmmo = 0
             else:
-                print("we have hit the else statment")
                 self.activeWeapon.magAmmo = self.activeWeapon.magAmmoMax
                 self.activeWeapon.reserveAmmo -= toAdd
-       
+
+            self.activeWeapon.reloadAudio.play()
             print("RELOADING!!!!")
-        else:
-            print("CANNOT RELOAD")
+
+
         
 
                 
