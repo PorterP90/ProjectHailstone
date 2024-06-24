@@ -17,6 +17,7 @@ class playerClass(pygame.sprite.Sprite):
         #functionality below
         self.speed = 2
         self.health = 100
+        self.points = 500
         self.activeWeapon = None
         self.weapon1 = None
         self.weapon2 = None

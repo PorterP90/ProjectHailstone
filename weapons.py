@@ -112,9 +112,10 @@ class bulletClass(weaponsClass):
             self.kill()
             self.alive = False
     
-    def hitEnemy(self, enmieGroup):
+    def hitEnemy(self, enmieGroup, player):
         for enemy in enmieGroup:
             if pygame.sprite.collide_rect(self, enemy):
+                player.points += 10
                 enemy.health -= self.damage 
                 self.kill()
                 self.alive = False

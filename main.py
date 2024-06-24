@@ -45,10 +45,8 @@ ammoGroup = pygame.sprite.Group()
 
 gameLoops = 0
 
-#pygame.mixer.__loader__(Kashmir (remaster.mp3))
-
 #game loop
-backgroundSound.play()
+#backgroundSound.play()
 
 while running:
 
@@ -87,27 +85,24 @@ while running:
     for bullet in bulletGroup:
         bullet.rect.x += bullet.moveX
         bullet.rect.y += bullet.moveY
-
+        bullet.hitEnemy(enemies, player)
     
     #are we doing damage to the player?
     isHitting(enemies, playerGroup)
 
 
-    #are we doing damage to an enemy
-    for bullet in bulletGroup:
-        bullet.hitEnemy(enemies)
-
-
     #draw everything
+    for bullet in bulletGroup:
+        bulletGroup.draw(screen) #draw our bullets
+        rotatedSprite = pygame.transform.rotate(bullet.image, player.activeWeapon.imageVectorAngle(player))
+        screen.blit(rotatedSprite, player.rect) #draw player
     
-    bulletGroup.draw(screen) #draw our bullets
-    screen.blit(player.image, player.rect) #draw player
     if True:
-        player.activeWeapon.rect.topleft = player.rect.center
-        #player.activeWeapon.rect.midleft = player.rect.centery
+        pivotPoint = player.rect.center
         rotatedSprite = pygame.transform.rotate(player.activeWeapon.image, player.activeWeapon.imageVectorAngle(player))
-        rotatedRect =  rotatedSprite.get_rect(midleft=player.activeWeapon.rect.midright)
-        screen.blit(rotatedSprite, rotatedRect )
+        rotatedRect =  rotatedSprite.get_rect(center = pivotPoint)
+        print(pivotPoint)
+        screen.blit(rotatedSprite, rotatedRect)
 
     for enemy in enemies:
         screen.blit(enemy.image, enemy.rect) #draw enemies to screen.
@@ -130,8 +125,8 @@ while running:
     screen.fill(screenColor) #clear screen
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    if gameLoops % 200 == 0:#add sounds?
-       createEnemy(enemies, screenHeight, screenWidth)
+    #if gameLoops % 200 == 0:#add sounds?
+    #   createEnemy(enemies, screenHeight, screenWidth)
 
     #add ammo box to screen to collect
     if gameLoops % 1000 == 0:
@@ -148,9 +143,11 @@ while running:
         running = False
     
 
-    print(player.activeWeapon)
     ammoMessage = f"Ammo: {player.activeWeapon.magAmmo} / {player.activeWeapon.reserveAmmo}"
     render_text(screen, ammoMessage, 75, 18, 35)
+
+    pointMessage = f"Points: {player.points}"
+    render_text(screen, pointMessage, screenWidth - 75, screenHeight-25, 30)
 
 pygame.quit()
 

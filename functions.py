@@ -71,3 +71,14 @@ def createAmmoBox(screenH, screenW, ammoGroup):
     y = random.randint(25, screenW)
     ammoBox = ammoBoxs(x, y)
     ammoGroup.add(ammoBox)
+
+
+def playerCircleDist(player):
+    lenX = player.rect.x + player.rect.right
+    lenY = player.rect.y + player.rect.bottom
+
+    #hypno to corner of rect and then make that a offset
+
+    playerCorner = math.hypot(lenX, lenX)
+
+    return playerCorner

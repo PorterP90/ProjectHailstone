@@ -9,6 +9,11 @@ THESE ARE THE NOTES FOR THE PROJECT aka things to get done:))))
 player shooting fix
 
 
+gameplay
+    -make rounds of zombie wave
+    -add rewards to player
+
+
 make ammo clip / reserve 
     -Reload delay (fix it)
     -swithcing weapons delay
