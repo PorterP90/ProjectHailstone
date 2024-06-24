@@ -21,6 +21,7 @@ class playerClass(pygame.sprite.Sprite):
         self.weapon1 = None
         self.weapon2 = None
         self.weapon3 = None
+        self.startTime = pygame.time.get_ticks()
         
 
     def checkMovement(self):
@@ -45,7 +46,6 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.top = 0
 
     def shooting(self, bulletGroup, event):
-                mouseX, mouseY = pygame.mouse.get_pos()
                 startX, startY = self.rect.center[0], self.rect.center[1]
                 if event.button == 1: #check for left click
                     bullet1 = bulletClass(startX, startY) #createBullet(player)
@@ -80,19 +80,19 @@ class playerClass(pygame.sprite.Sprite):
             self.activeWeapon = self.weapon3
 
     def reloadWeapon(self):
+        currentTime = pygame.time.get_ticks()
         if self.activeWeapon.magAmmoMax > self.activeWeapon.magAmmo and self.activeWeapon.reserveAmmo > 0:
-            #add up to total magAmmoMax if cant fill all the way add all of reserve to activeammo
-            toAdd = self.activeWeapon.magAmmoMax - self.activeWeapon.magAmmo
-            if toAdd > self.activeWeapon.reserveAmmo:
-                self.activeWeapon.magAmmo += self.activeWeapon.reserveAmmo
-                self.activeWeapon.reserveAmmo = 0
-            else:
-                self.activeWeapon.magAmmo = self.activeWeapon.magAmmoMax
-                self.activeWeapon.reserveAmmo -= toAdd
-
+            if currentTime - self.startTime >= self.activeWeapon.reloadTime:
+                #add up to total magAmmoMax if cant fill all the way add all of reserve to activeammo
+                toAdd = self.activeWeapon.magAmmoMax - self.activeWeapon.magAmmo
+                if toAdd > self.activeWeapon.reserveAmmo:
+                    self.activeWeapon.magAmmo += self.activeWeapon.reserveAmmo
+                    self.activeWeapon.reserveAmmo = 0
+                else:
+                    self.activeWeapon.magAmmo = self.activeWeapon.magAmmoMax
+                    self.activeWeapon.reserveAmmo -= toAdd
+                
             self.activeWeapon.reloadAudio.play()
-            print("RELOADING!!!!")
-
 
         
 

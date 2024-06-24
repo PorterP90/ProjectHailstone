@@ -27,7 +27,7 @@ class weaponsClass(pygame.sprite.Sprite):
 
     
 class primaryWeapons(weaponsClass):
-    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate, reloadTime, pullOutTime, reloadAudio, shootAudio):
+    def __init__(self, reserveAmmo, magAmmo, magAmmoMax, damage, automatic, firingRate, reloadTime, pullOutTime, reloadAudio, shootAudio, image):
         super().__init__()
         self.reserveAmmo = reserveAmmo
         self.magAmmo = magAmmo
@@ -40,6 +40,23 @@ class primaryWeapons(weaponsClass):
         self.reloadAudio = reloadAudio
         self.shootAudio = shootAudio
         self.weaponSlot = 1 
+        self.clock = pygame.time.Clock()
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+
+    def imageVectorAngle(self, player):
+        mouseX,mouseY = pygame.mouse.get_pos()
+
+        dx = mouseX - player.rect.center[0]
+        dy = mouseY - player.rect.center[1]
+
+        angle = math.degrees(math.atan2(dy, dx))
+
+        Angle = angle * -1
+
+        return Angle
+
+
 
 
 
@@ -58,8 +75,7 @@ class melleWeapons(weaponsClass):
 class bulletClass(weaponsClass):
     def __init__(self, startX, startY):
         super().__init__()
-        self.image = pygame.Surface((15,15))
-        self.image.fill((0,0,0))
+        self.image = pygame.image.load('bullet.png')
         self.rect = self.image.get_rect()
         self.rect.center = (startX, startY)
         self.moveX = 0
@@ -109,14 +125,14 @@ M4A4bulletSound = pygame.mixer.Sound("M4A4_shootSound.mp3")
 M4A4reloadSound = pygame.mixer.Sound("M4A4_Reload.mp3")
 
 #rifles
-M4A4 = primaryWeapons(50, 25, 25, 50 , True, 8, 3000, 1000, M4A4reloadSound ,M4A4bulletSound)
+M4A4 = primaryWeapons(50, 25, 25, 50 , True, 8, 3000, 1000, M4A4reloadSound ,M4A4bulletSound, 'm4a4.png')
 #AK47 = primaryWeapons(50, 30, 40, True, 7)
 
 
 M1911bulletSound = bulletSound
 M1911reloadSound = pygame.mixer.Sound("M1911_Reload.mp3")
 #pistols
-M1911 = secondaryWeapons(24, 15, 15, 25, False, 0, 2000, 1000, M1911reloadSound , M1911bulletSound)
+#M1911 = secondaryWeapons(24, 15, 15, 25, False, 0, 2000, 1000, M1911reloadSound , M1911bulletSound)
 #GLOCK20 = secondaryWeapons(25, 20, 25, False, 0)
 #CZ75 = secondaryWeapons(14, 14, 20, True, 10)
 #DEAGLE = secondaryWeapons(14, 7, 50, False, 0)

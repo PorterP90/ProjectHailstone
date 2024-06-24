@@ -7,11 +7,19 @@ THESE ARE THE NOTES FOR THE PROJECT aka things to get done:))))
 
 
 player shooting fix
-    -implement switch weapons
-    -implement drop weapon
+
 
 make ammo clip / reserve 
-    
+    -Reload delay (fix it)
+    -swithcing weapons delay
+    -audio for equipping neww weapon
+    -mag empty click audio 
+    -hit marker
+
+weapons
+    -make weapon sprites and rotate the drawing on angle of bullet (needs to be fixed)
+    -make bullet rotate
+    -
 
 Make pause screen
     -design the screen a resume button 
@@ -35,7 +43,7 @@ add different enemy types (functional)
 add weapons to collect? (funtional)
 
 
-trim gunshot audio(@D&B)
+trim all audio(@D&B)
 
 
 
@@ -49,8 +57,9 @@ THIS IS ALL THE WORK I'VE DONE SINCE LAST COMMIT TO HELP ME TRACK :)
 June 22/2024 COMPLETED TASKS
 player shooting fix
     -implement reload (DONE)
-
-
+    -implement switch weapons(DONE)
+    -audio for reload (DONE)
+    -audio for indvidual bullets (DONE)
 
 June 21/2024 COMPLETED TASKS
 make ammo clip / reserve 

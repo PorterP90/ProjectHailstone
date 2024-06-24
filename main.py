@@ -33,7 +33,7 @@ enemies = pygame.sprite.Group()
 #create player add him to sprite group
 player = playerClass(screenHeight//2, screenWidth//2)
 player.weapon1 = M4A4
-player.weapon2 = M1911
+#player.weapon2 = M1911
 player.activeWeapon = player.weapon1
 playerGroup = pygame.sprite.Group() 
 playerGroup.add(player)
@@ -64,6 +64,7 @@ while running:
     print("chekcing keys...")
     keys = pygame.key.get_pressed()
     if keys[pygame.K_r]:
+        player.startTime = pygame.time.get_ticks()
         player.reloadWeapon()
         print("r key pressed")
     if keys[pygame.K_1]:
@@ -101,6 +102,13 @@ while running:
     
     bulletGroup.draw(screen) #draw our bullets
     screen.blit(player.image, player.rect) #draw player
+    if True:
+        player.activeWeapon.rect.topleft = player.rect.center
+        #player.activeWeapon.rect.midleft = player.rect.centery
+        rotatedSprite = pygame.transform.rotate(player.activeWeapon.image, player.activeWeapon.imageVectorAngle(player))
+        rotatedRect =  rotatedSprite.get_rect(midleft=player.activeWeapon.rect.midright)
+        screen.blit(rotatedSprite, rotatedRect )
+
     for enemy in enemies:
         screen.blit(enemy.image, enemy.rect) #draw enemies to screen.
     for box in ammoGroup:
@@ -122,8 +130,8 @@ while running:
     screen.fill(screenColor) #clear screen
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    #if gameLoops % 200 == 0:#add sounds?
-    #   createEnemy(enemies, screenHeight, screenWidth)
+    if gameLoops % 200 == 0:#add sounds?
+       createEnemy(enemies, screenHeight, screenWidth)
 
     #add ammo box to screen to collect
     if gameLoops % 1000 == 0:
