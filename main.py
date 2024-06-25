@@ -18,6 +18,8 @@ backgroundSound.set_volume(.5)
 screenHeight, screenWidth = 1000, 1200
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
+background = pygame.image.load('map.png').convert()
+background = pygame.transform.scale(background, (screenWidth, screenHeight))
 
 #framerate
 clock = pygame.time.Clock()
@@ -122,7 +124,7 @@ while running:
     #this wipes away anything from last frame.
     pygame.display.update()
     pygame.display.flip()
-    screen.fill(screenColor) #clear screen
+    screen.blit(background,(0,0)) #clear screen
 
     #add a new enemy every 100 loops :) (manipulate for fun stuff)
     #if gameLoops % 200 == 0:#add sounds?
