@@ -12,7 +12,7 @@ class playerClass(pygame.sprite.Sprite):
     def __init__(self, x ,y):
         #draw player
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('mouse.png')
+        self.image = pygame.image.load('assets/mouse.png')
         self.rect = self.image.get_rect(center = (x//2, y//2))
         #functionality below
         self.speed = 2

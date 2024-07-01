@@ -12,7 +12,7 @@ black = (0,0,0)
 class EnemieClass(pygame.sprite.Sprite):
     def __init__(self, x, y,):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('zombie.png')
+        self.image = pygame.image.load('assets/zombie.png')
         self.rect = self.image.get_rect(center = (x//2, y//2))
         self.health = 100
         self.speed = 1

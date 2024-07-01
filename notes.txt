@@ -4,6 +4,8 @@
 
 
 THESE ARE THE NOTES FOR THE PROJECT aka things to get done:))))
+Due today: desgin map, and fix gun rotating around player as well as bullet rotation.
+
 
 
 player shooting fix
@@ -58,24 +60,3 @@ trim all audio(@D&B)
 
 THIS IS ALL THE WORK I'VE DONE SINCE LAST COMMIT TO HELP ME TRACK :)
 
-
-June 22/2024 COMPLETED TASKS
-player shooting fix
-    -implement reload (DONE)
-    -implement switch weapons(DONE)
-    -audio for reload (DONE)
-    -audio for indvidual bullets (DONE)
-
-June 21/2024 COMPLETED TASKS
-make ammo clip / reserve 
-    -so I need to make a magazine for the weapon and have player resersve ammo? (DONE) (lowkey note is confusing but I think I did it)
-    -only shoot when ammo in the magazine (DONE)
-    -if R is pressed reload the magazine with max mag size form reserve(DONE)
-    -also did a drop weapon funciton (DONE )
-    -also did a switch weapon function (DONE)
-    -ammo boxs add to the reserve (DONE)
-    --draw both reserve and magazine ammo onto screen(DONE)
-
-player shooting fix
-    -I need the game to figure out what weapon im holding (DONE)
-    -In shooting function make it call the specfic weapon shooting with activeWeapon (DONE)

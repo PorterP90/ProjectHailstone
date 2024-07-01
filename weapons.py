@@ -3,7 +3,7 @@ import math
 
 
 pygame.mixer.init()
-bulletSound = pygame.mixer.Sound('M1911-FX1.mp3')
+bulletSound = pygame.mixer.Sound('assets/M1911-FX1.mp3')
 bulletSound.set_volume(.6)
 
 
@@ -75,7 +75,7 @@ class melleWeapons(weaponsClass):
 class bulletClass(weaponsClass):
     def __init__(self, startX, startY):
         super().__init__()
-        self.image = pygame.image.load('bullet.png')
+        self.image = pygame.image.load('assets/bullet.png')
         self.rect = self.image.get_rect()
         self.rect.center = (startX, startY)
         self.moveX = 0
@@ -122,16 +122,16 @@ class bulletClass(weaponsClass):
 
 
 
-M4A4bulletSound = pygame.mixer.Sound("M4A4_shootSound.mp3")
-M4A4reloadSound = pygame.mixer.Sound("M4A4_Reload.mp3")
+M4A4bulletSound = pygame.mixer.Sound("assets/M4A4_shootSound.mp3")
+M4A4reloadSound = pygame.mixer.Sound("assets/M4A4_Reload2.mp3")
 
 #rifles
-M4A4 = primaryWeapons(50, 25, 25, 50 , True, 8, 3000, 1000, M4A4reloadSound ,M4A4bulletSound, 'm4a4.png')
+M4A4 = primaryWeapons(50, 25, 25, 50 , True, 8, 3000, 1000, M4A4reloadSound ,M4A4bulletSound, 'assets/m4a4.png')
 #AK47 = primaryWeapons(50, 30, 40, True, 7)
 
 
 M1911bulletSound = bulletSound
-M1911reloadSound = pygame.mixer.Sound("M1911_Reload.mp3")
+M1911reloadSound = pygame.mixer.Sound("assets/M1911_Reload2.mp3")
 #pistols
 #M1911 = secondaryWeapons(24, 15, 15, 25, False, 0, 2000, 1000, M1911reloadSound , M1911bulletSound)
 #GLOCK20 = secondaryWeapons(25, 20, 25, False, 0)

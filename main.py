@@ -2,14 +2,14 @@ import pygame
 import random
 from player import playerClass
 from enemies import *
-from functions import *
+from ProjectHailstone.assets.functions import *
 from weapons import *
 
 pygame.init()
 pygame.mixer.init()
 pygame.font.init()
 
-backgroundSound = pygame.mixer.Sound('Kashmir (Remaster).mp3')
+backgroundSound = pygame.mixer.Sound('assets/Kashmir (Remaster).mp3')
 
 backgroundSound.set_volume(.5)
 
@@ -18,7 +18,7 @@ backgroundSound.set_volume(.5)
 screenHeight, screenWidth = 1000, 1200
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
-background = pygame.image.load('map.png').convert()
+background = pygame.image.load('assets/map.png').convert()
 background = pygame.transform.scale(background, (screenWidth, screenHeight))
 
 #framerate
@@ -99,6 +99,8 @@ while running:
         rotatedSprite = pygame.transform.rotate(bullet.image, player.activeWeapon.imageVectorAngle(player))
         screen.blit(rotatedSprite, player.rect) #draw player
     
+    screen.blit(player.image, player.rect)
+
     if True:
         pivotPoint = player.rect.center
         rotatedSprite = pygame.transform.rotate(player.activeWeapon.image, player.activeWeapon.imageVectorAngle(player))
