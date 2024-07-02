@@ -18,7 +18,7 @@ backgroundSound.set_volume(.5)
 screenHeight, screenWidth = 500, 600
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
-background = pygame.image.load('assets/map.png').convert()
+background = pygame.image.load('assets/mainRoom.png').convert()
 background = pygame.transform.scale(background, (screenWidth, screenHeight))
 
 mainmenuScreen = pygame.display.set_mode((screenWidth, screenHeight))

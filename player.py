@@ -1,7 +1,7 @@
 import pygame
 import math
 from weapons import bulletClass
-
+from rooms import *
 
 player_image = pygame.image.load('assets/mouse.png').convert_alpha
 
@@ -23,6 +23,7 @@ class playerClass(pygame.sprite.Sprite):
         self.weapon2 = None
         self.weapon3 = None
         self.startTime = pygame.time.get_ticks()
+        self.room = mainRoom
         
 
     def checkMovement(self):
@@ -37,13 +38,27 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.y -= self.speed
 
     def outBounds(self, screenH, screenW):
-        if self.rect.right >= screenW:
+        halfWidth = screenW / 2
+        halfHeight = screenH / 2
+        heightPasses = range((halfWidth-50), (halfWidth + 50))
+        widthPasses = range((halfHeight-50), (halfHeight+50))
+
+        if self.room.topDoor:
+            pass
+        if self.room.leftDoor:
+            pass
+        if self.room.rightDoor:
+            pass
+        if self.room.bottomDoor:
+            pass
+
+        if self.rect.right >= screenW and self.room.rightDoor == False:
             self.rect.right = screenW
-        elif self.rect.left <= 0:
+        elif self.rect.left <= 0 and self.room.leftDoor == False:
             self.rect.left = 0
-        elif self.rect.bottom >= screenH:
+        elif self.rect.bottom >= screenH and self.room.bottomDoor == False:
             self.rect.bottom = screenH
-        elif self.rect.top <= 0:
+        elif self.rect.top <= 0 and self.room.topDoor == False:
             self.rect.top = 0
 
     def shooting(self, bulletGroup, event):
