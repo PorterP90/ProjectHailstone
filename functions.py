@@ -82,3 +82,9 @@ def playerCircleDist(player):
     playerCorner = math.hypot(lenX, lenX)
 
     return playerCorner
+
+def rounds(zombieGroup, round):
+    startZoms = 5
+    if zombieGroup == 0:
+        round += 1
+    totalZoms = startZoms * round 

@@ -3,7 +3,7 @@ import math
 from weapons import bulletClass
 
 
-player_image = pygame.image.load('mouse.png').convert_alpha
+player_image = pygame.image.load('assets/mouse.png').convert_alpha
 
 #draw to screen
 #screen.blit(player_image, x, y)
@@ -54,6 +54,7 @@ class playerClass(pygame.sprite.Sprite):
                     bulletGroup.add(bullet1)
                     #here we take the vector of the bullet and change the movement of it in its class.
                     bullet1.moveX, bullet1.moveY = bullet1.bulletVector(self)
+                    bullet1.rotateAngle = self.activeWeapon.imageVectorAngle(self)
                     self.activeWeapon.shootAudio.play() #eventuall change to the actual weapons sound
                     self.activeWeapon.magAmmo -= 1
     
@@ -81,19 +82,17 @@ class playerClass(pygame.sprite.Sprite):
             self.activeWeapon = self.weapon3
 
     def reloadWeapon(self):
-        currentTime = pygame.time.get_ticks()
         if self.activeWeapon.magAmmoMax > self.activeWeapon.magAmmo and self.activeWeapon.reserveAmmo > 0:
-            if currentTime - self.startTime >= self.activeWeapon.reloadTime:
-                #add up to total magAmmoMax if cant fill all the way add all of reserve to activeammo
-                toAdd = self.activeWeapon.magAmmoMax - self.activeWeapon.magAmmo
-                if toAdd > self.activeWeapon.reserveAmmo:
-                    self.activeWeapon.magAmmo += self.activeWeapon.reserveAmmo
-                    self.activeWeapon.reserveAmmo = 0
-                else:
-                    self.activeWeapon.magAmmo = self.activeWeapon.magAmmoMax
-                    self.activeWeapon.reserveAmmo -= toAdd
-                
             self.activeWeapon.reloadAudio.play()
+                #add up to total magAmmoMax if cant fill all the way add all of reserve to activeammo
+            toAdd = self.activeWeapon.magAmmoMax - self.activeWeapon.magAmmo
+            if toAdd > self.activeWeapon.reserveAmmo:
+                self.activeWeapon.magAmmo += self.activeWeapon.reserveAmmo
+                self.activeWeapon.reserveAmmo = 0
+            else:
+                self.activeWeapon.magAmmo = self.activeWeapon.magAmmoMax
+                self.activeWeapon.reserveAmmo -= toAdd
+                
 
         
 

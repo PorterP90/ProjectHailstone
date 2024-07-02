@@ -2,7 +2,7 @@ import pygame
 import random
 from player import playerClass
 from enemies import *
-from ProjectHailstone.assets.functions import *
+from functions import *
 from weapons import *
 
 pygame.init()
@@ -15,11 +15,20 @@ backgroundSound.set_volume(.5)
 
 
 #Create game window
-screenHeight, screenWidth = 1000, 1200
+screenHeight, screenWidth = 500, 600
 screenColor = (49,77,92)
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 background = pygame.image.load('assets/map.png').convert()
 background = pygame.transform.scale(background, (screenWidth, screenHeight))
+
+mainmenuScreen = pygame.display.set_mode((screenWidth, screenHeight))
+mainMenuBackground = pygame.image.load('assets/startMenu.png').convert()
+mainMenuBackground = pygame.transform.scale(mainMenuBackground, (screenWidth, screenHeight))
+
+pauseMenuScreen = pygame.display.set_mode((screenWidth,screenHeight))
+pauseMenuBackground = pygame.image.load('assets/pauseMenu.png').convert()
+pauseMenuBackground = pygame.transform.scale(pauseMenuBackground, (screenWidth, screenHeight))
+
 
 #framerate
 clock = pygame.time.Clock()
@@ -27,131 +36,198 @@ freamerate = 120
 
 #game running 
 running = True
+menuRunning = True
 
-
-#create enemy group
-enemies = pygame.sprite.Group()
-
-#create player add him to sprite group
-player = playerClass(screenHeight//2, screenWidth//2)
-player.weapon1 = M4A4
-#player.weapon2 = M1911
-player.activeWeapon = player.weapon1
-playerGroup = pygame.sprite.Group() 
-playerGroup.add(player)
-
-#create the bullet group *thumbs up*
-bulletGroup = pygame.sprite.Group()
-ammoGroup = pygame.sprite.Group()
 
 
 gameLoops = 0
 
 #game loop
 #backgroundSound.play()
+def mainMenuLoop():
+    while menuRunning:
+        #main menu loop
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                return "gameLoop"
 
-while running:
+        pygame.display.update()
+        pygame.display.flip()
+        screen.blit(mainMenuBackground,(0,0)) #clear screen
 
-    #event handler
-    for event in pygame.event.get():
+
+def gameLoop():
+    #main game loop
+    gameLoops = 0
+    running = True
+        
+
+    #create enemy group
+    enemies = pygame.sprite.Group()
+
+    #create player add him to sprite group
+    player = playerClass(screenHeight//2, screenWidth//2)
+    player.weapon1 = M4A4
+    #player.weapon2 = M1911
+    player.activeWeapon = player.weapon1
+    playerGroup = pygame.sprite.Group() 
+    playerGroup.add(player)
+
+    #create the bullet group *thumbs up*
+    bulletGroup = pygame.sprite.Group()
+    rotatedBulletGroup = pygame.sprite.Group()
+    ammoGroup = pygame.sprite.Group()
     
-        if event.type == pygame.QUIT:
+    
+    while running:
+        #event handler
+        for event in pygame.event.get():
+        
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if player.activeWeapon.magAmmo != 0:
+                    player.shooting(bulletGroup, event)
+            elif event.type == pygame.K_ESCAPE:
+                return "pauseMenu"
+
+
+        print("chekcing keys...")
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_r]:
+            player.reloadWeapon()
+            print("r key pressed")
+        if keys[pygame.K_1]:
+            player.switchWeapon()
+        if keys[pygame.K_2]:
+            player.switchWeapon()
+        if keys[pygame.K_3]:
+            player.switchWeapon()
+        if keys[pygame.K_ESCAPE]:
+            return "pauseMenu"
+
+        
+        #check if enemeis are stacked
+        areWeStacked(enemies)
+    
+
+
+        #enemie movement twoards player
+        for enemy in enemies:
+            enemy.pathForPlayer(player)
+        
+        for bullet in bulletGroup:
+            bullet.rect.x += bullet.moveX
+            bullet.rect.y += bullet.moveY
+            bullet.hitEnemy(enemies, player)
+        
+        #are we doing damage to the player?
+        isHitting(enemies, playerGroup)
+
+
+        #draw everything
+        for bullet in bulletGroup:
+            #bulletGroup.draw(screen) #draw our bullets
+            #if bullet.rotated == False:
+            rotatedSprite = pygame.transform.rotate(bullet.image, bullet.rotateAngle)
+            rotatedRect = rotatedSprite.get_rect(center=bullet.rect.center)
+            rotatedRect.x += bullet.moveX
+            rotatedRect.y += bullet.moveY
+            bullet.rotated = True
+            screen.blit(rotatedSprite, rotatedRect) #draw playerr
+
+        
+        screen.blit(player.image, player.rect)
+
+        if True:
+            pivotPoint = player.rect.center
+            rotatedSprite = pygame.transform.rotate(player.activeWeapon.image, player.activeWeapon.imageVectorAngle(player))
+            rotatedRect =  rotatedSprite.get_rect(center = pivotPoint)
+            print(pivotPoint)
+            screen.blit(rotatedSprite, rotatedRect)
+
+        for enemy in enemies:
+            screen.blit(enemy.image, enemy.rect) #draw enemies to screen.
+        for box in ammoGroup:
+            screen.blit(box.image, box.rect)
+            box.collected(player)
+
+        #update our groups
+        bulletGroup.update(screenWidth, screenHeight) #update bullets
+        rotatedBulletGroup.update(screenWidth, screenHeight)
+        enemies.update() #update our enemys 
+        ammoGroup.update()
+        player.update(screenHeight, screenWidth)
+        #player.reloadWeapon()
+        #player.switchWeapon()
+        #player.dropWeapon()
+
+        #this wipes away anything from last frame.
+        pygame.display.update()
+        pygame.display.flip()
+        screen.blit(background,(0,0)) #clear screen
+
+        #add a new enemy every 100 loops :) (manipulate for fun stuff)
+        #if gameLoops % 200 == 0:#add sounds?
+        #   createEnemy(enemies, screenHeight, screenWidth)
+
+        #add ammo box to screen to collect
+        #if gameLoops % 1000 == 0:
+        #createAmmoBox(screenHeight, screenWidth, ammoGroup)
+
+
+
+
+        gameLoops += 1
+        clock.tick(freamerate)
+        
+        #check for death
+        if player.health == 0:
             running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if player.activeWeapon.magAmmo != 0:
-                player.shooting(bulletGroup, event)
+        
 
-    print("chekcing keys...")
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_r]:
-        player.startTime = pygame.time.get_ticks()
-        player.reloadWeapon()
-        print("r key pressed")
-    if keys[pygame.K_1]:
-        player.switchWeapon()
-    if keys[pygame.K_2]:
-        player.switchWeapon()
-    if keys[pygame.K_3]:
-        player.switchWeapon()
+        ammoMessage = f"Ammo: {player.activeWeapon.magAmmo} / {player.activeWeapon.reserveAmmo}"
+        render_text(screen, ammoMessage, 75, 18, 35)
+
+        pointMessage = f"Points: {player.points}"
+        render_text(screen, pointMessage, screenWidth - 75, screenHeight-25, 30)
+
+        healthMessage = f"Health: {player.health}"
+        render_text(screen, healthMessage, 75, screenHeight - 35, 35)
+
+def pauseLoop():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                print("resuming game")
+                return "gameLoop"
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    print("going to main menu")
+                    return "mainMenu"
 
     
-    #check if enemeis are stacked
-    areWeStacked(enemies)
-   
+        pygame.display.update()
+        pygame.display.flip()
+        screen.blit(pauseMenuBackground, (0,0))
+
+def main():
+    gameState = "mainMenu"
+    while True:
+        if gameState == "mainMenu":
+            gameState = mainMenuLoop()
+        elif gameState == "gameLoop":
+            gameState = gameLoop()
+        elif gameState == "pauseMenu":
+            gameState = pauseLoop()
 
 
-    #enemie movement twoards player
-    for enemy in enemies:
-        enemy.pathForPlayer(player)
-    
-    for bullet in bulletGroup:
-        bullet.rect.x += bullet.moveX
-        bullet.rect.y += bullet.moveY
-        bullet.hitEnemy(enemies, player)
-    
-    #are we doing damage to the player?
-    isHitting(enemies, playerGroup)
-
-
-    #draw everything
-    for bullet in bulletGroup:
-        bulletGroup.draw(screen) #draw our bullets
-        rotatedSprite = pygame.transform.rotate(bullet.image, player.activeWeapon.imageVectorAngle(player))
-        screen.blit(rotatedSprite, player.rect) #draw player
-    
-    screen.blit(player.image, player.rect)
-
-    if True:
-        pivotPoint = player.rect.center
-        rotatedSprite = pygame.transform.rotate(player.activeWeapon.image, player.activeWeapon.imageVectorAngle(player))
-        rotatedRect =  rotatedSprite.get_rect(center = pivotPoint)
-        print(pivotPoint)
-        screen.blit(rotatedSprite, rotatedRect)
-
-    for enemy in enemies:
-        screen.blit(enemy.image, enemy.rect) #draw enemies to screen.
-    for box in ammoGroup:
-        screen.blit(box.image, box.rect)
-        box.collected(player)
-
-    #update our groups
-    bulletGroup.update(screenWidth, screenHeight) #update bullets
-    enemies.update() #update our enemys 
-    ammoGroup.update()
-    player.update(screenHeight, screenWidth)
-    #player.reloadWeapon()
-    #player.switchWeapon()
-    #player.dropWeapon()
-
-    #this wipes away anything from last frame.
-    pygame.display.update()
-    pygame.display.flip()
-    screen.blit(background,(0,0)) #clear screen
-
-    #add a new enemy every 100 loops :) (manipulate for fun stuff)
-    #if gameLoops % 200 == 0:#add sounds?
-    #   createEnemy(enemies, screenHeight, screenWidth)
-
-    #add ammo box to screen to collect
-    if gameLoops % 1000 == 0:
-       createAmmoBox(screenHeight, screenWidth, ammoGroup)
-
-
-
-
-    gameLoops += 1
-    clock.tick(freamerate)
-    
-    #check for death
-    if player.health == 0:
-        running = False
-    
-
-    ammoMessage = f"Ammo: {player.activeWeapon.magAmmo} / {player.activeWeapon.reserveAmmo}"
-    render_text(screen, ammoMessage, 75, 18, 35)
-
-    pointMessage = f"Points: {player.points}"
-    render_text(screen, pointMessage, screenWidth - 75, screenHeight-25, 30)
+if __name__ == "__main__":
+    main()
 
 pygame.quit()
 

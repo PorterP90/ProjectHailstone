@@ -80,6 +80,8 @@ class bulletClass(weaponsClass):
         self.rect.center = (startX, startY)
         self.moveX = 0
         self.moveY = 0
+        self.rotated = False
+        self.rotateAngle = 0
         
     def bulletVector(self, player):
     #create ability to shoot enemy 
@@ -123,7 +125,7 @@ class bulletClass(weaponsClass):
 
 
 M4A4bulletSound = pygame.mixer.Sound("assets/M4A4_shootSound.mp3")
-M4A4reloadSound = pygame.mixer.Sound("assets/M4A4_Reload2.mp3")
+M4A4reloadSound = pygame.mixer.Sound("assets/M4A4_Relod2.mp3")
 
 #rifles
 M4A4 = primaryWeapons(50, 25, 25, 50 , True, 8, 3000, 1000, M4A4reloadSound ,M4A4bulletSound, 'assets/m4a4.png')

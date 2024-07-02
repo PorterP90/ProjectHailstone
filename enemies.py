@@ -56,3 +56,8 @@ class EnemieClass(pygame.sprite.Sprite):
         
         
 
+
+
+
+
+    
