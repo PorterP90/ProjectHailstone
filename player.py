@@ -40,25 +40,43 @@ class playerClass(pygame.sprite.Sprite):
     def outBounds(self, screenH, screenW):
         halfWidth = screenW / 2
         halfHeight = screenH / 2
-        heightPasses = range((halfWidth-50), (halfWidth + 50))
-        widthPasses = range((halfHeight-50), (halfHeight+50))
+        heightPasses = list(range(int(halfWidth-50), int(halfWidth + 50)))
+        widthPasses = list(range(int(halfHeight-50), int(halfHeight+50)))
+
+        #RUBER DUCK, I need to change room if player hits an open door.. aka top.door == True: if they hit door space
+        #so 
+
+        #rect.top == 1 number we need an x,y coordinate so the center of palyer
+        #center == 0,door width
 
         if self.room.topDoor:
-            pass
+            for n in heightPasses:
+                if self.rect.center[0] == n and self.rect.center[1] == self.rect.height /2:
+                    print("entering top room")
+                    #self.room now is the self.room top door
         if self.room.leftDoor:
-            pass
+            for n in widthPasses:
+                if self.rect.center[1] == n and self.rect.center[0] == self.rect.width /2:
+                    print("enterning left room")
+                    #self.room now is self.room.left door
         if self.room.rightDoor:
-            pass
+            for n in widthPasses:
+                if self.rect.center[1] == n and self.rect.center[0] == screenW - self.rect.width /2:
+                    print("entering right room")
+                    #self.room now is self.room.rightdoor
         if self.room.bottomDoor:
-            pass
+            for n in heightPasses:
+                if self.rect.center[0] == n and self.rect.center[1] == screenH - self.rect.height /2:
+                    print("enterning bottom room")
+                    #self.room is now self.room.bottomdoor
 
-        if self.rect.right >= screenW and self.room.rightDoor == False:
+        if self.rect.right >= screenW:
             self.rect.right = screenW
-        elif self.rect.left <= 0 and self.room.leftDoor == False:
+        elif self.rect.left <= 0:
             self.rect.left = 0
-        elif self.rect.bottom >= screenH and self.room.bottomDoor == False:
+        elif self.rect.bottom >= screenH:
             self.rect.bottom = screenH
-        elif self.rect.top <= 0 and self.room.topDoor == False:
+        elif self.rect.top <= 0:
             self.rect.top = 0
 
     def shooting(self, bulletGroup, event):
